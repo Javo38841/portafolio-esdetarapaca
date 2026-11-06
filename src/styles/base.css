@@ -1,0 +1,110 @@
+/* Base compartida: misma estructura en todas las ediciones. Los colores y fuentes vienen de global.css. */
+
+/* Qué se ve según el tema (fotos y textos de día / de noche) */
+.night {
+  display: none !important;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .day {
+    display: none !important;
+  }
+  :root:not([data-theme='light']) .night {
+    display: revert !important;
+  }
+}
+:root[data-theme='dark'] .day {
+  display: none !important;
+}
+:root[data-theme='dark'] .night {
+  display: revert !important;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  transition: color 0.4s ease;
+}
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+a,
+button {
+  color: inherit;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+button {
+  font: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+  z-index: 100;
+  padding: 8px 14px;
+  background: var(--ink);
+  color: var(--bg);
+}
+.skip:focus {
+  left: 8px;
+}
+:focus-visible {
+  outline: 2px solid var(--mark);
+  outline-offset: 3px;
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Enlace con subrayado que aparece al pasar el mouse */
+.link {
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.3s ease;
+}
+.link:hover,
+.link:focus-visible {
+  background-size: 100% 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

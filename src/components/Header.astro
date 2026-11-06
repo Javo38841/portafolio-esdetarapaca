@@ -1,0 +1,65 @@
+---
+// Nombre pequeño arriba a la izquierda; "Info, Contacto" y el modo día/noche arriba a la derecha.
+import ThemeToggle from './ThemeToggle.astro';
+import CopyEmail from './CopyEmail.astro';
+import { studio, withBase } from '../data/studio';
+
+interface Props {
+  back?: boolean;
+}
+
+const { back = false } = Astro.props;
+---
+
+<header class="header">
+  <a class="logo link" href={withBase('/')}>{studio.owner}</a>
+  <nav class="nav" aria-label="Principal">
+    {
+      back ? (
+        <a class="link" href={withBase('/')}>
+          Volver
+        </a>
+      ) : (
+        <a class="link" href={withBase('/info')}>
+          Info
+        </a>
+      )
+    }
+    <span aria-hidden="true">,</span>
+    <CopyEmail>Contacto</CopyEmail>
+    <ThemeToggle />
+  </nav>
+</header>
+
+<style>
+  .header {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 10px 0 var(--unit);
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .logo {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .nav > a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .nav > span {
+    margin-right: 6px;
+  }
+</style>

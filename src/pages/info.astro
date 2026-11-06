@@ -1,0 +1,240 @@
+---
+// Página Info (como /info de segerman.dev): quién soy, qué hago, cómo trabajo y contacto.
+// TODO: los textos son un borrador; reescríbelos con tu voz.
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Background from '../components/Background.astro';
+import CopyEmail from '../components/CopyEmail.astro';
+import { studio, whatsappLink, withBase } from '../data/studio';
+import { theme } from '../data/theme';
+import credits from '../data/credits.json';
+
+const quote =
+  whatsappLink('Hola Javier, quiero cotizar una landing para mi negocio.') ||
+  `mailto:${studio.email}?subject=${encodeURIComponent('Cotización de landing')}`;
+
+const incluye = [
+  'Diseño a la medida, pensado primero para celular',
+  'Botón de WhatsApp para recibir clientes',
+  'Ubicación con Google Maps y horarios',
+  'Galería de fotos de tus trabajos',
+  'Subdominio tunegocio.esdetarapaca.cl',
+  'Hosting incluido y certificado HTTPS',
+];
+
+const pasos = [
+  { n: '01', title: 'Conversamos', text: 'Me cuentas de tu negocio y qué quieres que la gente haga: reservar, llamar o llegar a tu local.' },
+  { n: '02', title: 'Diseño', text: 'Te muestro una primera versión con tus fotos, tus precios y tu estilo. La ajustamos juntos.' },
+  { n: '03', title: 'Publicación', text: 'Tu página queda en línea en su subdominio, rápida en el celular y lista para Google.' },
+  { n: '04', title: 'Acompañamiento', text: 'Si cambias un precio, un horario o quieres sumar fotos, me escribes y lo actualizo.' },
+];
+---
+
+<Layout title={`Info | ${studio.owner}`} description="Quién soy, qué incluye una landing y cómo trabajo.">
+  <Background dim />
+  <Header back />
+
+  <main id="contenido" class="info" tabindex="-1">
+    <section class="intro">
+      <p class="lead">
+        Soy {studio.owner}, desarrollador de software en Alto Hospicio. En <b>{studio.domain}</b> hago landings para
+        negocios de Tarapacá: barberías, restaurantes, talleres y tiendas que quieren que los encuentren y les escriban.
+      </p>
+    </section>
+
+    <section class="cols">
+      <div>
+        <h2 class="label">Toda landing incluye</h2>
+        <ul class="list">
+          {incluye.map((i) => <li>{i}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2 class="label">Cómo trabajo</h2>
+        <ol class="steps">
+          {
+            pasos.map((p) => (
+              <li>
+                <span class="n">{p.n}</span>
+                <div>
+                  <h3>{p.title}</h3>
+                  <p>{p.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+      <div>
+        <h2 class="label">Contacto</h2>
+        <ul class="list plain">
+          <li><CopyEmail /></li>
+          {studio.whatsapp && <li><a class="link" href={quote}>WhatsApp</a></li>}
+          {studio.instagram && <li><a class="link" href={studio.instagram} target="_blank" rel="me noopener">Instagram {studio.instagramHandle}</a></li>}
+          {studio.linkedin && <li><a class="link" href={studio.linkedin} target="_blank" rel="me noopener">LinkedIn ↗</a></li>}
+          {studio.github && <li><a class="link" href={studio.github} target="_blank" rel="me noopener">GitHub ↗</a></li>}
+        </ul>
+        <h2 class="label spaced">Disponible</h2>
+        <p>{studio.availableFrom}</p>
+        <a class="cta" href={quote}>Cotiza tu landing →</a>
+      </div>
+    </section>
+
+    <figure class="photo">
+      <img class="day" src={withBase(theme.info.day.src)} alt={theme.info.day.alt} width={theme.info.day.w} height={theme.info.day.h} loading="lazy" decoding="async" />
+      <img class="night" src={withBase(theme.info.night.src)} alt={theme.info.night.alt} width={theme.info.night.w} height={theme.info.night.h} loading="lazy" decoding="async" />
+      <figcaption>
+        <span class="day">{theme.info.day.alt}</span>
+        <span class="night">{theme.info.night.alt}</span>
+      </figcaption>
+    </figure>
+
+    <footer class="foot">
+      <div>
+        <h2 class="label">Fotos (Wikimedia Commons)</h2>
+        <ul class="credits">
+          {
+            credits.map((c) => (
+              <li>
+                <a class="link" href={c.source} target="_blank" rel="noopener">
+                  {c.author}
+                </a>{' '}
+                · <a class="link" href={c.licenseUrl} target="_blank" rel="noopener license">{c.license}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <p class="copy">© {new Date().getFullYear()} {studio.domain} · Edición {theme.edition}</p>
+    </footer>
+  </main>
+</Layout>
+
+<style>
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 72px;
+    padding: 120px var(--unit) var(--unit);
+    outline: none;
+  }
+  .lead {
+    max-width: 22ch;
+    font-family: var(--font-display);
+    font-weight: var(--display-weight);
+    letter-spacing: var(--display-tracking);
+    font-size: clamp(30px, 4.6vw, 64px);
+    line-height: 1.02;
+  }
+  .lead b {
+    font-weight: inherit;
+    color: var(--accent);
+  }
+  .cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: 48px 40px;
+    font-size: 16px;
+  }
+  .label {
+    margin-bottom: 14px;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 400;
+    opacity: 0.55;
+  }
+  .label.spaced {
+    margin-top: 28px;
+  }
+  .list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .list:not(.plain) li::before {
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 3px;
+    margin-right: 10px;
+    vertical-align: middle;
+    background: var(--mark);
+  }
+  .list a {
+    display: inline-flex;
+    min-height: 28px;
+    align-items: center;
+  }
+  .steps {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .steps li {
+    display: flex;
+    gap: 14px;
+  }
+  .n {
+    font-size: 13px;
+    opacity: 0.5;
+    padding-top: 3px;
+  }
+  .steps h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .steps p {
+    color: var(--ink-2);
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    margin-top: 24px;
+    padding: 0 22px;
+    background: var(--ink);
+    color: var(--bg);
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius);
+    transition: background-color 0.2s ease;
+  }
+  .cta:hover {
+    background: var(--accent);
+  }
+  .photo img {
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+  .photo figcaption {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    font-size: 13px;
+  }
+  .credits {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: var(--ink-2);
+  }
+  .copy {
+    color: var(--muted);
+  }
+</style>

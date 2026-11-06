@@ -1,0 +1,60 @@
+---
+// Foto de fondo a pantalla completa: de día o de noche según el tema, con un velo para leer bien.
+import { theme } from '../data/theme';
+import { withBase } from '../data/studio';
+
+interface Props {
+  /** Velo más fuerte para páginas con mucho texto. */
+  dim?: boolean;
+}
+
+const { dim = false } = Astro.props;
+const { day, night } = theme.bg;
+const set = (b: typeof day) => `${withBase(b.sm)} 900w, ${withBase(b.src)} 2400w`;
+---
+
+<div class:list={['bg', { dim }]} aria-hidden="true">
+  <img class="day" src={withBase(day.src)} srcset={set(day)} sizes="100vw" alt="" width={day.w} height={day.h} fetchpriority="high" />
+  <img class="night" src={withBase(night.src)} srcset={set(night)} sizes="100vw" alt="" width={night.w} height={night.h} />
+  <div class="veil"></div>
+</div>
+
+<style>
+  .bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: var(--bg);
+    overflow: hidden;
+  }
+  .bg img,
+  .veil {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .bg img {
+    object-fit: cover;
+    animation: settle 18s ease-out both;
+  }
+  .veil {
+    background: var(--veil);
+    transition: background 0.4s ease;
+  }
+  .dim .veil::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    opacity: 0.6;
+  }
+  @keyframes settle {
+    from {
+      transform: scale(1.08);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+</style>

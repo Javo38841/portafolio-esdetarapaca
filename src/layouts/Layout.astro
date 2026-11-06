@@ -1,0 +1,48 @@
+---
+import '@fontsource/overpass/400.css';
+import '@fontsource/overpass/600.css';
+import '@fontsource/overpass/800.css';
+import '../styles/global.css';
+import '../styles/base.css';
+import { studio } from '../data/studio';
+import { theme } from '../data/theme';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Página de una sola pantalla con carrusel (inicio). */
+  stage?: boolean;
+}
+
+const { title, description, stage = false } = Astro.props;
+const ogImage = new URL(theme.bg.day.sm, Astro.site);
+---
+
+<!doctype html>
+<html lang="es-CL" class:list={{ stage }}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="author" content={studio.owner} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CL" />
+    <meta property="og:image" content={ogImage.href} />
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <!-- Aplica el tema elegido antes de pintar, para que no parpadee. -->
+    <script is:inline>
+      try {
+        const t = localStorage.getItem('theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,61 @@
+---
+// Botón día / noche (círculo a medias). Sin elección guardada, sigue al sistema.
+---
+
+<button type="button" class="toggle" data-theme-toggle aria-label="Cambiar a modo noche">
+  <span class="toggle-inner" aria-hidden="true"></span>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : media.matches);
+
+  function sync() {
+    const dark = isDark();
+    document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((b) => {
+      b.setAttribute('aria-label', dark ? 'Cambiar a modo día' : 'Cambiar a modo noche');
+      b.dataset.dark = String(dark);
+    });
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const next = isDark() ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem('theme', next);
+      } catch {}
+      sync();
+    }),
+  );
+  media.addEventListener('change', sync);
+  sync();
+</script>
+
+<style>
+  .toggle {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+  }
+  .toggle-inner {
+    display: block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+    transition: transform 0.5s cubic-bezier(0.7, 0, 0.2, 1);
+  }
+  .toggle[data-dark='true'] .toggle-inner {
+    transform: rotate(180deg);
+  }
+  .toggle:hover .toggle-inner {
+    transform: rotate(90deg);
+  }
+  .toggle[data-dark='true']:hover .toggle-inner {
+    transform: rotate(270deg);
+  }
+</style>

@@ -1,0 +1,72 @@
+---
+// Copia el email al hacer click y avisa "¡Email copiado!". Sin portapapeles, funciona como mailto:.
+import { studio } from '../data/studio';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<span class="copy-email">
+  <a
+    href={`mailto:${studio.email}`}
+    class:list={['link', className]}
+    data-copy-email={studio.email}
+    aria-label={`Copiar el email ${studio.email}`}
+  >
+    <slot>{studio.email}</slot>
+  </a>
+  <span class="copied" aria-hidden="true">¡Email copiado!</span>
+  <span class="visually-hidden" role="status" aria-live="polite" data-copied-status></span>
+</span>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('[data-copy-email]').forEach((link) => {
+    const wrap = link.parentElement!;
+    const status = wrap.querySelector<HTMLElement>('[data-copied-status]');
+    let timer: number | undefined;
+    link.addEventListener('click', async (event) => {
+      if (!navigator.clipboard) return;
+      event.preventDefault();
+      try {
+        await navigator.clipboard.writeText(link.dataset.copyEmail ?? '');
+        wrap.classList.add('is-copied');
+        if (status) status.textContent = 'Email copiado';
+        clearTimeout(timer);
+        timer = window.setTimeout(() => {
+          wrap.classList.remove('is-copied');
+          if (status) status.textContent = '';
+        }, 1800);
+      } catch {
+        window.location.href = link.href;
+      }
+    });
+  });
+</script>
+
+<style>
+  .copy-email {
+    position: relative;
+    display: inline-flex;
+  }
+  .copied {
+    position: absolute;
+    left: 0;
+    top: 0;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .copy-email > a {
+    transition: opacity 0.2s ease;
+  }
+  .is-copied > a {
+    opacity: 0;
+  }
+  .is-copied .copied {
+    opacity: 1;
+  }
+</style>

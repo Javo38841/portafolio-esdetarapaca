@@ -1,0 +1,447 @@
+---
+// Carrusel infinito de trabajos + índice a la derecha (estructura tipo segerman.dev).
+// Escritorio: se mueve con la rueda del mouse, arrastrando o con el teclado, y avanza solo despacio.
+// `axis`: 'y' = columna que baja de arriba hacia abajo; 'x' = fila de izquierda a derecha.
+// Celular: lista vertical normal.
+import { trabajos } from '../data/trabajos';
+import { studio, whatsappLink, withBase } from '../data/studio';
+
+interface Props {
+  axis?: 'x' | 'y';
+}
+
+const { axis = 'x' } = Astro.props;
+
+const quote =
+  whatsappLink('Hola Javier, quiero cotizar una landing para mi negocio.') ||
+  `mailto:${studio.email}?subject=${encodeURIComponent('Cotización de landing')}`;
+
+const items = [
+  ...trabajos.map((t, i) => ({
+    id: `t${i}`,
+    href: t.url,
+    title: t.name,
+    meta: `${t.kind} · ${t.place}`,
+    image: withBase(t.image),
+    external: true,
+  })),
+  { id: 'next', href: quote, title: 'Tu negocio', meta: 'Próxima landing · Cotiza la tuya', image: '', external: false },
+];
+// Dos copias para que la vuelta sea continua; la segunda queda oculta para lectores de pantalla.
+const copies = [0, 1];
+---
+
+<div class:list={['carousel', `axis-${axis}`]} data-carousel data-axis={axis}>
+  <div class="work">
+  <ul class="projects" data-track aria-label="Trabajos">
+    {
+      copies.map((c) =>
+        items.map((it, i) => (
+          <li class:list={['slide', { clone: c === 1 }]} data-id={it.id} data-i={i} aria-hidden={c === 1 ? 'true' : undefined}>
+            <a
+              class="project"
+              href={it.href}
+              target={it.external ? '_blank' : undefined}
+              rel={it.external ? 'noopener' : undefined}
+              tabindex={c === 1 ? -1 : undefined}
+              draggable="false"
+            >
+              <figure class:list={['media', { empty: !it.image }]}>
+                {it.image ? (
+                  <img src={it.image} alt={c === 1 ? '' : `Captura de ${it.title}`} width="1200" height="750" loading={i < 2 && c === 0 ? 'eager' : 'lazy'} decoding="async" draggable="false" />
+                ) : (
+                  <span class="empty-text">
+                    Tu landing
+                    <br />
+                    aquí →
+                  </span>
+                )}
+              </figure>
+              <span class="caption">
+                <span class="title">{it.title}</span>
+                <span class="meta">{it.meta}</span>
+              </span>
+            </a>
+          </li>
+        )),
+      )
+    }
+  </ul>
+  </div>
+
+  <!-- El índice va fuera de .work para quedar anclado a la página, no a la zona del carrusel. -->
+  <div class="project-index">
+    <p class="index-title">Índice</p>
+    <ul class="titles">
+      {
+        items.map((it) => (
+          <li>
+            <a class="index-link" href={it.href} data-id={it.id} target={it.external ? '_blank' : undefined} rel={it.external ? 'noopener' : undefined}>
+              {it.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="preview" aria-hidden="true">
+      {items.filter((it) => it.image).map((it) => <img data-id={it.id} src={it.image} alt="" width="1200" height="750" loading="lazy" />)}
+    </div>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-carousel]');
+  if (root) {
+    const track = root.querySelector<HTMLElement>('[data-track]')!;
+    const slides = [...track.querySelectorAll<HTMLElement>('.slide')];
+    const firstCopy = slides.filter((s) => !s.classList.contains('clone'));
+    const indexLinks = [...root.querySelectorAll<HTMLElement>('.index-link')];
+    const previews = [...root.querySelectorAll<HTMLElement>('.preview img')];
+    const desktop = window.matchMedia('(min-width: 900px) and (min-height: 600px)');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const vertical = root.dataset.axis === 'y';
+
+    let target = 0;
+    let current = 0;
+    let step = 1;
+    let total = 1;
+    let hovering = false;
+    let dragging = false;
+    let moved = 0;
+    let startX = 0;
+    let startTarget = 0;
+    let wasDesktop = false;
+
+    const mod = (n: number, m: number) => ((n % m) + m) % m;
+
+    function measure() {
+      const size = vertical ? slides[0].offsetHeight : slides[0].offsetWidth;
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 24;
+      step = size + gap;
+      total = step * slides.length;
+    }
+
+    function setActive(id: string | null) {
+      slides.forEach((s) => s.classList.toggle('is-active', s.dataset.id === id));
+      indexLinks.forEach((l) => l.classList.toggle('is-active', l.dataset.id === id));
+      previews.forEach((p) => p.classList.toggle('is-active', p.dataset.id === id));
+      root!.classList.toggle('has-active', id !== null);
+    }
+
+    // Lleva la tarjeta i al borde izquierdo por el camino más corto.
+    function goTo(i: number) {
+      let t = -i * step;
+      t += Math.round((target - t) / total) * total;
+      target = t;
+    }
+
+    function frame() {
+      const isDesktop = desktop.matches;
+      if (isDesktop !== wasDesktop) {
+        wasDesktop = isDesktop;
+        if (isDesktop) measure();
+        else slides.forEach((s) => (s.style.transform = ''));
+      }
+      if (isDesktop) {
+        // vertical: baja de arriba hacia abajo; horizontal: avanza hacia la izquierda
+        if (!hovering && !dragging && !reduce.matches) target += vertical ? 0.35 : -0.35;
+        const prev = current;
+        current += (target - current) * (reduce.matches ? 1 : 0.075);
+        const v = current - prev;
+        const skew = reduce.matches ? 0 : Math.max(-7, Math.min(7, -v * 0.18));
+        slides.forEach((s, i) => {
+          const pos = mod(i * step + current + step, total) - step;
+          s.style.transform = vertical
+            ? `translate3d(0,${pos}px,0) skewY(${skew * 0.5}deg)`
+            : `translate3d(${pos}px,0,0) skewX(${skew}deg)`;
+        });
+      }
+      requestAnimationFrame(frame);
+    }
+
+    window.addEventListener(
+      'wheel',
+      (e) => {
+        if (!desktop.matches) return;
+        e.preventDefault();
+        const d = vertical || Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+        target -= d * 0.9;
+      },
+      { passive: false },
+    );
+
+    track.addEventListener('pointerdown', (e) => {
+      if (!desktop.matches || e.button !== 0) return;
+      dragging = true;
+      moved = 0;
+      startX = vertical ? e.clientY : e.clientX;
+      startTarget = target;
+      track.classList.add('is-dragging');
+    });
+    window.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const dx = (vertical ? e.clientY : e.clientX) - startX;
+      moved = Math.max(moved, Math.abs(dx));
+      target = startTarget + dx * 1.3;
+    });
+    window.addEventListener('pointerup', () => {
+      dragging = false;
+      track.classList.remove('is-dragging');
+    });
+    // Si fue un arrastre, no abre el link.
+    track.addEventListener(
+      'click',
+      (e) => {
+        if (moved > 6) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        moved = 0;
+      },
+      true,
+    );
+
+    window.addEventListener('keydown', (e) => {
+      if (!desktop.matches) return;
+      if (e.key === (vertical ? 'ArrowDown' : 'ArrowRight')) {
+        e.preventDefault();
+        target -= step;
+      }
+      if (e.key === (vertical ? 'ArrowUp' : 'ArrowLeft')) {
+        e.preventDefault();
+        target += step;
+      }
+    });
+
+    // Con teclado (Tab), la tarjeta enfocada pasa al frente.
+    firstCopy.forEach((s, i) => s.addEventListener('focusin', () => desktop.matches && goTo(i)));
+
+    slides.forEach((s) => {
+      s.addEventListener('pointerenter', () => {
+        hovering = true;
+        setActive(s.dataset.id ?? null);
+      });
+      s.addEventListener('pointerleave', () => {
+        hovering = false;
+        setActive(null);
+      });
+    });
+    indexLinks.forEach((l) => {
+      const i = firstCopy.findIndex((s) => s.dataset.id === l.dataset.id);
+      l.addEventListener('pointerenter', () => {
+        hovering = true;
+        setActive(l.dataset.id ?? null);
+        if (desktop.matches) goTo(i);
+      });
+      l.addEventListener('pointerleave', () => {
+        hovering = false;
+        setActive(null);
+      });
+      l.addEventListener('focus', () => setActive(l.dataset.id ?? null));
+      l.addEventListener('blur', () => setActive(null));
+    });
+
+    window.addEventListener('resize', () => desktop.matches && measure());
+    requestAnimationFrame(frame);
+  }
+</script>
+
+<style>
+  .carousel {
+    display: contents;
+  }
+  /* ---------- celular: lista vertical ---------- */
+  .work {
+    padding: 0 var(--unit);
+  }
+  .projects {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 28px;
+    column-gap: 24px;
+  }
+  .clone,
+  .project-index {
+    display: none;
+  }
+  .project {
+    display: block;
+    text-decoration: none;
+  }
+  .media {
+    position: relative;
+    aspect-ratio: 1.54 / 1;
+    overflow: hidden;
+    background: var(--card);
+    border-radius: var(--radius);
+  }
+  .media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), filter 0.4s ease;
+  }
+  .media.empty {
+    display: grid;
+    place-items: center;
+    background: transparent;
+    border: 1.5px dashed var(--line);
+  }
+  .empty-text {
+    font-family: var(--font-display);
+    font-weight: var(--display-weight);
+    text-transform: var(--display-transform);
+    letter-spacing: var(--display-tracking);
+    line-height: 0.95;
+    font-size: clamp(28px, 3vw, 44px);
+    text-align: center;
+    color: var(--accent);
+  }
+  .caption {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-top: 10px;
+    font-size: 15px;
+  }
+  .title {
+    font-family: var(--caption-font);
+    font-style: var(--caption-style);
+    font-weight: 600;
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 13px;
+    text-align: right;
+  }
+
+  /* ---------- escritorio: carrusel infinito ---------- */
+  @media (min-width: 900px) and (min-height: 600px) {
+    /* La zona del carrusel es el espacio que queda bajo el texto: nunca lo tapa.
+       Las tarjetas se achican según el alto disponible (unidades cqh del contenedor). */
+    .work {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: flex-end;
+      padding: 0;
+      container-type: size;
+      pointer-events: none;
+    }
+    .projects {
+      --card-w: clamp(200px, min(34vw, calc((100cqh - 34px) * 1.54)), 560px);
+      position: relative;
+      width: 100%;
+      margin-left: var(--unit);
+      height: calc(var(--card-w) / 1.54 + 34px);
+      display: block;
+      pointer-events: auto;
+      cursor: grab;
+      touch-action: pan-y;
+      user-select: none;
+    }
+    .projects.is-dragging {
+      cursor: grabbing;
+    }
+    .slide,
+    .clone {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--card-w);
+      will-change: transform;
+    }
+    .project:hover .media img,
+    .slide.is-active .media img {
+      transform: scale(1.04);
+    }
+    .has-active .slide:not(.is-active) .media img {
+      filter: grayscale(0.7) brightness(0.92);
+    }
+
+    /* columna vertical: entre el título y el índice, de borde a borde */
+    .axis-y .projects {
+      --card-w: clamp(240px, 25vw, 400px);
+      position: fixed;
+      margin: 0;
+      left: auto;
+      right: calc(220px + var(--unit) * 3);
+      top: 0;
+      bottom: 0;
+      width: var(--card-w);
+      height: auto;
+      touch-action: pan-x;
+      -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 90px, #000 calc(100% - 90px), transparent 100%);
+      mask-image: linear-gradient(180deg, transparent 0, #000 90px, #000 calc(100% - 90px), transparent 100%);
+    }
+
+    .project-index {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      position: absolute;
+      top: 96px;
+      right: var(--unit);
+      width: 220px;
+      pointer-events: auto;
+      text-align: right;
+    }
+    .index-title {
+      margin-bottom: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .titles {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 18px;
+    }
+    .index-link {
+      display: inline-block;
+      padding: 2px 0;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .has-active .index-link:not(.is-active) {
+      opacity: 0.35;
+    }
+    .index-link.is-active {
+      transform: translateX(-6px);
+    }
+    .index-link.is-active::before {
+      content: '';
+      display: inline-block;
+      width: 14px;
+      height: 3px;
+      margin-right: 8px;
+      vertical-align: middle;
+      background: var(--mark);
+    }
+    .preview {
+      position: relative;
+      width: 220px;
+      aspect-ratio: 1.54 / 1;
+    }
+    .preview img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+      transition: opacity 0.3s ease, clip-path 0.45s cubic-bezier(0.7, 0, 0.2, 1);
+    }
+    .preview img.is-active {
+      opacity: 1;
+      clip-path: inset(0 0 0 0);
+    }
+  }
+</style>
