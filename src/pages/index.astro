@@ -21,15 +21,15 @@ import { theme } from '../data/theme';
   <main id="contenido" class="page" tabindex="-1">
     <div class="text-wrapper">
       <h1 class="headline">
-        <span class="line">Software</span>
-        <span class="line">Developer</span>
+        <span class="line mask-line" style="--d: 0.45s"><span>Software</span></span>
+        <span class="line mask-line" style="--d: 0.58s"><span>Developer</span></span>
       </h1>
-      <p class="text">{theme.tagline}</p>
+      <p class="text reveal" style="--d: 0.85s">{theme.tagline}</p>
     </div>
 
     <Carousel />
 
-    <div class="metas">
+    <div class="metas reveal" style="--d: 1.1s">
       <dl class="meta">
         <dt class="label">Contacto</dt>
         <dd><CopyEmail /></dd>
@@ -40,7 +40,7 @@ import { theme } from '../data/theme';
       </dl>
     </div>
 
-    <p class="corner">
+    <p class="corner reveal" style="--d: 1.15s">
       <span class="day">{theme.caption.day}</span>
       <span class="night">{theme.caption.night}</span>
       <span class="copy">© {new Date().getFullYear()}</span>

@@ -1,5 +1,6 @@
 ---
 // Foto de fondo a pantalla completa: de día o de noche según el tema, con un velo para leer bien.
+// Con WebGL se suma el efecto líquido: el mouse deja una estela que descubre la otra foto.
 import { theme } from '../data/theme';
 import { withBase } from '../data/studio';
 
@@ -14,8 +15,9 @@ const set = (b: typeof day) => `${withBase(b.sm)} 900w, ${withBase(b.src)} 2400w
 ---
 
 <div class:list={['bg', { dim }]} aria-hidden="true">
-  <img class="day" src={withBase(day.src)} srcset={set(day)} sizes="100vw" alt="" width={day.w} height={day.h} fetchpriority="high" />
-  <img class="night" src={withBase(night.src)} srcset={set(night)} sizes="100vw" alt="" width={night.w} height={night.h} />
+  <img class="day" data-bg-day src={withBase(day.src)} srcset={set(day)} sizes="100vw" alt="" width={day.w} height={day.h} fetchpriority="high" />
+  <img class="night" data-bg-night src={withBase(night.src)} srcset={set(night)} sizes="100vw" alt="" width={night.w} height={night.h} />
+  <canvas class="liquid" data-liquid></canvas>
   <div class="veil"></div>
 </div>
 
@@ -28,6 +30,7 @@ const set = (b: typeof day) => `${withBase(b.sm)} 900w, ${withBase(b.src)} 2400w
     overflow: hidden;
   }
   .bg img,
+  .liquid,
   .veil {
     position: absolute;
     inset: 0;
@@ -36,7 +39,13 @@ const set = (b: typeof day) => `${withBase(b.sm)} 900w, ${withBase(b.src)} 2400w
   }
   .bg img {
     object-fit: cover;
-    animation: settle 18s ease-out both;
+  }
+  .liquid {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+  .bg.liquid-on .liquid {
+    opacity: 1;
   }
   .veil {
     background: var(--veil);
@@ -49,12 +58,23 @@ const set = (b: typeof day) => `${withBase(b.sm)} 900w, ${withBase(b.src)} 2400w
     background: var(--bg);
     opacity: 0.6;
   }
-  @keyframes settle {
-    from {
-      transform: scale(1.08);
-    }
-    to {
-      transform: scale(1);
-    }
-  }
 </style>
+
+<script>
+  import { initLiquid } from '../scripts/liquid';
+
+  const bg = document.querySelector<HTMLElement>('.bg');
+  const canvas = bg?.querySelector<HTMLCanvasElement>('[data-liquid]');
+  const day = bg?.querySelector<HTMLImageElement>('[data-bg-day]');
+  const night = bg?.querySelector<HTMLImageElement>('[data-bg-night]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (bg && canvas && day && night && !reduce) {
+    const root = document.documentElement;
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : media.matches);
+    initLiquid(canvas, day, night, isDark)
+      .then((ok) => ok && bg.classList.add('liquid-on'))
+      .catch(() => {});
+  }
+</script>

@@ -4,6 +4,7 @@ import '@fontsource/overpass/600.css';
 import '@fontsource/overpass/800.css';
 import '../styles/global.css';
 import '../styles/base.css';
+import Loader from '../components/Loader.astro';
 import { studio } from '../data/studio';
 import { theme } from '../data/theme';
 
@@ -35,6 +36,7 @@ const ogImage = new URL(theme.bg.day.sm, Astro.site);
     <title>{title}</title>
     <!-- Aplica el tema elegido antes de pintar, para que no parpadee. -->
     <script is:inline>
+      document.documentElement.classList.add('js');
       try {
         const t = localStorage.getItem('theme');
         if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
@@ -42,6 +44,7 @@ const ogImage = new URL(theme.bg.day.sm, Astro.site);
     </script>
   </head>
   <body>
+    <Loader />
     <a class="skip" href="#contenido">Saltar al contenido</a>
     <slot />
   </body>

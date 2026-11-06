@@ -100,6 +100,35 @@ button {
   background-size: 100% 1px;
 }
 
+/* Entrada después de la pantalla de carga.
+   .reveal: aparece subiendo un poco. --d = retraso. Solo con JS (si no, todo se ve de inmediato). */
+.reveal {
+  transition:
+    opacity 0.9s ease var(--d, 0s),
+    transform 1s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d, 0s);
+}
+.js:not(.is-loaded) .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+}
+/* Líneas del título: suben desde abajo, recortadas */
+.mask-line {
+  display: block;
+  overflow: hidden;
+  padding: 0 0.12em 0.1em 0;
+  margin-bottom: -0.1em;
+}
+.mask-line > span {
+  display: inline-block;
+  transition: transform 1.15s cubic-bezier(0.76, 0, 0.24, 1) var(--d, 0s);
+}
+.js:not(.is-loaded) .mask-line > span {
+  transform: translateY(110%);
+}
+.js:not(.is-loaded) body {
+  overflow: hidden;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

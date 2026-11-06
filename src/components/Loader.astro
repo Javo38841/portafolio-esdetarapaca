@@ -1,0 +1,166 @@
+---
+// Pantalla de carga (estilo landonorris.com): color de marca, logo al centro, texto y porcentaje abajo.
+// Cuenta lo que de verdad carga (fotos y fuentes), dura al menos ~1,3 s y nunca más de 6 s.
+// Sin JavaScript no aparece (solo se muestra con la clase .js en <html>).
+import { theme } from '../data/theme';
+
+const { loader } = theme;
+---
+
+<div
+  class="loader"
+  data-loader
+  aria-hidden="true"
+  style={`--loader-bg:${loader.bg};--loader-fg:${loader.fg};--loader-accent:${loader.accent};--loader-bar:${loader.bar}`}
+>
+  <div class="mark" set:html={loader.mark} />
+  <div class="bottom">
+    <div class="bar"><span data-bar></span></div>
+    <p class="label">
+      <span>{loader.label}</span>
+      <span class="pct"><span data-pct>0</span>%</span>
+    </p>
+  </div>
+</div>
+
+<script>
+  const el = document.querySelector<HTMLElement>('[data-loader]');
+  const root = document.documentElement;
+
+  if (el) {
+    const pctEl = el.querySelector<HTMLElement>('[data-pct]')!;
+    const barEl = el.querySelector<HTMLElement>('[data-bar]')!;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const MIN = reduce ? 250 : 1300;
+    const MAX = 6000;
+    const start = performance.now();
+
+    // Lo que se espera: imágenes que no son lazy + las fuentes.
+    const imgs = [...document.images].filter((i) => i.loading !== 'lazy');
+    const total = imgs.length + 1;
+    let done = 0;
+    const tick = () => done++;
+    imgs.forEach((img) => {
+      if (img.complete) tick();
+      else {
+        img.addEventListener('load', tick, { once: true });
+        img.addEventListener('error', tick, { once: true });
+      }
+    });
+    document.fonts.ready.then(tick, tick);
+
+    let shown = 0;
+    let finished = false;
+
+    function finish() {
+      finished = true;
+      pctEl.textContent = '100';
+      barEl.style.transform = 'scaleX(1)';
+      el!.classList.add('is-done');
+      root.classList.add('is-loaded');
+      window.setTimeout(() => el!.remove(), reduce ? 400 : 1400);
+    }
+
+    function frame(now: number) {
+      if (finished) return;
+      const elapsed = now - start;
+      const actual = elapsed > MAX ? 1 : done / total;
+      // No avanza más rápido que el mínimo de tiempo, para que se alcance a ver.
+      const target = Math.min(actual, elapsed / MIN);
+      shown += (target - shown) * 0.12;
+      if (target >= 1 && shown > 0.995) shown = 1;
+      pctEl.textContent = String(Math.round(shown * 100));
+      barEl.style.transform = `scaleX(${shown})`;
+      if (shown >= 1) window.setTimeout(finish, reduce ? 0 : 180);
+      else requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+</script>
+
+<style>
+  .loader {
+    display: none;
+  }
+  :global(.js) .loader {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--loader-bg);
+    color: var(--loader-fg);
+    transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  .mark {
+    transition:
+      opacity 0.4s ease,
+      transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+  }
+  .mark :global(svg) {
+    display: block;
+    width: clamp(52px, 6vw, 72px);
+    height: auto;
+  }
+  .bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    transition: opacity 0.3s ease;
+  }
+  .bar {
+    width: min(260px, 60vw);
+    height: 4px;
+    overflow: hidden;
+    background: rgb(255 255 255 / 0.15);
+  }
+  .bar span {
+    display: block;
+    height: 100%;
+    background: var(--loader-bar);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .label {
+    display: flex;
+    gap: 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .pct {
+    min-width: 4ch;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: var(--loader-accent);
+  }
+
+  /* salida: el logo se achica, el texto se apaga y la pantalla sube */
+  .loader.is-done {
+    transform: translateY(-100%);
+    transition-delay: 0.25s;
+  }
+  .is-done .mark {
+    opacity: 0;
+    transform: scale(0.8) translateY(-20px);
+  }
+  .is-done .bottom {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .loader.is-done {
+      transform: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+  }
+</style>
