@@ -1,4 +1,5 @@
-/* esdetarapaca · edición Costanera
+/* esdetarapaca · edición Navidad en la costanera (rama iquique-navidad, sale de iquique)
+   Navidad en la playa: rojo pascuero, mar de Cavancha y luces doradas.
    Estructura tipo segerman.dev: nombre pequeño, título gigante, carrusel infinito e índice.
    De día: Cavancha con velo de arena clara y coral. De noche: Cavancha bajo la luna, faroles de sodio. */
 
@@ -9,8 +10,8 @@
   --muted: rgb(16 48 60 / 0.55);
   --line: rgb(16 48 60 / 0.2);
   --card: #e9dcc6;
-  --accent: #e0573a; /* coral de atardecer */
-  --mark: #e0573a;
+  --accent: #c8102e; /* rojo pascuero */
+  --mark: #c8102e;
   --veil: linear-gradient(180deg, rgb(246 239 227 / 0.88) 0%, rgb(246 239 227 / 0.55) 48%, rgb(246 239 227 / 0.84) 100%);
 
   --font: 'Manrope Variable', system-ui, sans-serif;
@@ -37,7 +38,7 @@
     --muted: rgb(238 244 243 / 0.55);
     --line: rgb(238 244 243 / 0.22);
     --card: #0d2633;
-    --accent: #ffb85c; /* faroles de sodio */
+    --accent: #ff6b6b; /* rojo navideño de noche */
     --mark: #ffb85c;
     --veil: linear-gradient(180deg, rgb(3 12 18 / 0.6) 0%, rgb(3 12 18 / 0.2) 48%, rgb(3 12 18 / 0.72) 100%);
     color-scheme: dark;
@@ -50,7 +51,7 @@
   --muted: rgb(238 244 243 / 0.55);
   --line: rgb(238 244 243 / 0.22);
   --card: #0d2633;
-  --accent: #ffb85c;
+  --accent: #ff6b6b;
   --mark: #ffb85c;
   --veil: linear-gradient(180deg, rgb(3 12 18 / 0.6) 0%, rgb(3 12 18 / 0.2) 48%, rgb(3 12 18 / 0.72) 100%);
   color-scheme: dark;
