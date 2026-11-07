@@ -22,6 +22,8 @@ const incluye = [
   'Hosting incluido y certificado HTTPS',
 ];
 
+const herramientas = ['Astro', 'TypeScript', 'Angular', 'NestJS', 'Docker', 'GitHub Actions'];
+
 const pasos = [
   { n: '01', title: 'Conversamos', text: 'Me cuentas de tu negocio y qué quieres que la gente haga: reservar, llamar o llegar a tu local.' },
   { n: '02', title: 'Diseño', text: 'Te muestro una primera versión con tus fotos, tus precios y tu estilo. La ajustamos juntos.' },
@@ -35,11 +37,29 @@ const pasos = [
   <Header back />
 
   <main id="contenido" class="info" tabindex="-1">
-    <section class="intro reveal" style="--d: 0.45s">
-      <p class="lead">
-        Soy {studio.owner}, desarrollador de software en Alto Hospicio. En <b>{studio.domain}</b> hago landings para
-        negocios de Tarapacá: barberías, restaurantes, talleres y tiendas que quieren que los encuentren y les escriban.
-      </p>
+    <section class="about">
+      <figure class="portrait reveal" style="--d: 0.4s">
+        <img src={withBase('/img/javier.webp')} alt={studio.owner} width="588" height="721" decoding="async" />
+      </figure>
+      <div class="about-text">
+        <h1 class="about-title mask-line" style="--d: 0.45s"><span>Sobre mí</span></h1>
+        <p class="name reveal" style="--d: 0.6s">{studio.owner} · {studio.role}</p>
+        <div class="bio reveal" style="--d: 0.7s">
+          <p>
+            Soy Javier, desarrollador de software de Alto Hospicio. Estudié Ingeniería en Informática en la Universidad
+            Técnica Federico Santa María y hoy trabajo como Analista de Soporte TI y Software en Intermex, en la ZOFRI de
+            Iquique.
+          </p>
+          <p>
+            Fuera del trabajo administro mi propio servidor, un homelab con Ubuntu Server, Docker y GitHub Actions, donde
+            pruebo todo lo que después uso en mis proyectos.
+          </p>
+          <p>
+            En <b>{studio.domain}</b> hago landings para negocios de Tarapacá: barberías, restaurantes, talleres y tiendas
+            que quieren que los encuentren y les escriban.
+          </p>
+        </div>
+      </div>
     </section>
 
     <section class="cols reveal" style="--d: 0.7s">
@@ -66,7 +86,9 @@ const pasos = [
         </ol>
       </div>
       <div>
-        <h2 class="label">Contacto</h2>
+        <h2 class="label">Herramientas</h2>
+        <p class="tools">{herramientas.join(', ')}</p>
+        <h2 class="label spaced">Contacto</h2>
         <ul class="list plain">
           <li><CopyEmail /></li>
           {studio.whatsapp && <li><a class="link" href={quote}>WhatsApp</a></li>}
@@ -79,15 +101,6 @@ const pasos = [
         <a class="cta" href={quote}>Cotiza tu landing →</a>
       </div>
     </section>
-
-    <figure class="photo">
-      <img class="day" src={withBase(theme.info.day.src)} alt={theme.info.day.alt} width={theme.info.day.w} height={theme.info.day.h} loading="lazy" decoding="async" />
-      <img class="night" src={withBase(theme.info.night.src)} alt={theme.info.night.alt} width={theme.info.night.w} height={theme.info.night.h} loading="lazy" decoding="async" />
-      <figcaption>
-        <span class="day">{theme.info.day.alt}</span>
-        <span class="night">{theme.info.night.alt}</span>
-      </figcaption>
-    </figure>
 
     <footer class="foot">
       <div>
@@ -118,17 +131,55 @@ const pasos = [
     padding: 120px var(--unit) var(--unit);
     outline: none;
   }
-  .lead {
-    max-width: 22ch;
+  .about {
+    display: grid;
+    gap: 32px;
+  }
+  @media (min-width: 900px) {
+    .about {
+      grid-template-columns: minmax(260px, 30%) 1fr;
+      gap: 56px;
+      align-items: end;
+    }
+  }
+  .portrait img {
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+  .about-title {
     font-family: var(--font-display);
     font-weight: var(--display-weight);
+    text-transform: var(--display-transform);
     letter-spacing: var(--display-tracking);
-    font-size: clamp(30px, 4.6vw, 64px);
-    line-height: 1.02;
+    line-height: var(--display-leading);
+    font-size: clamp(56px, 10vw, 150px);
   }
-  .lead b {
-    font-weight: inherit;
+  /* espacio arriba para la tilde de "MÍ", que la máscara recortaba */
+  .about-title.mask-line {
+    padding-top: 0.2em;
+  }
+  .name {
+    margin-top: 18px;
+    font-weight: 600;
     color: var(--accent);
+  }
+  .bio {
+    margin-top: 20px;
+    max-width: 58ch;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.45;
+  }
+  .bio b {
+    color: var(--accent);
+  }
+  .tools {
+    color: var(--ink-2);
   }
   .cols {
     display: grid;
@@ -206,17 +257,6 @@ const pasos = [
   }
   .cta:hover {
     background: var(--accent);
-  }
-  .photo img {
-    width: 100%;
-    aspect-ratio: 21 / 9;
-    object-fit: cover;
-    border-radius: var(--radius);
-  }
-  .photo figcaption {
-    margin-top: 8px;
-    font-size: 13px;
-    color: var(--muted);
   }
   .foot {
     display: flex;
