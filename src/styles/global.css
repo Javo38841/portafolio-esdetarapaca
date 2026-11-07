@@ -1,4 +1,5 @@
-/* esdetarapaca · edición Ruta del desierto
+/* esdetarapaca · edición Navidad en el desierto (rama ruta-navidad, sale de ruta)
+   Navidad en verano: rojo pascuero, verde de cardón y luces doradas sobre la pampa.
    Estructura tipo segerman.dev: nombre pequeño, título gigante, carrusel infinito e índice.
    De día: la pampa y el Cerro Dragón con velo de arena. De noche: la bajada iluminada con velo azul noche. */
 
@@ -9,8 +10,9 @@
   --muted: rgb(27 26 23 / 0.5);
   --line: rgb(27 26 23 / 0.18);
   --card: #e2d3b6;
-  --accent: #0b6b3a; /* verde letrero de carretera */
-  --mark: #f2b705; /* línea amarilla de la ruta */
+  --accent: #a3162b; /* rojo pascuero */
+  --mark: #e0a91b; /* luces doradas */
+  --line2-color: var(--accent);
   --veil: linear-gradient(180deg, rgb(236 225 203 / 0.86) 0%, rgb(236 225 203 / 0.6) 45%, rgb(236 225 203 / 0.82) 100%);
 
   --font: 'Overpass', system-ui, sans-serif;
@@ -34,8 +36,8 @@
     --muted: rgb(239 237 230 / 0.55);
     --line: rgb(239 237 230 / 0.2);
     --card: #141a2a;
-    --accent: #3ccf7f;
-    --mark: #ffcc33;
+    --accent: #ff5d6c;
+    --mark: #ffd166;
     --veil: linear-gradient(180deg, rgb(5 8 16 / 0.72) 0%, rgb(5 8 16 / 0.35) 45%, rgb(5 8 16 / 0.75) 100%);
     color-scheme: dark;
   }
@@ -47,8 +49,8 @@
   --muted: rgb(239 237 230 / 0.55);
   --line: rgb(239 237 230 / 0.2);
   --card: #141a2a;
-  --accent: #3ccf7f;
-  --mark: #ffcc33;
+  --accent: #ff5d6c;
+  --mark: #ffd166;
   --veil: linear-gradient(180deg, rgb(5 8 16 / 0.72) 0%, rgb(5 8 16 / 0.35) 45%, rgb(5 8 16 / 0.75) 100%);
   color-scheme: dark;
 }
