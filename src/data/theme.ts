@@ -3,15 +3,11 @@ export const theme = {
   edition: 'Navidad en el desierto',
   bg: {
     day: { src: '/img/dia-cerro-dragon.webp', sm: '/img/dia-cerro-dragon-sm.webp', w: 2400, h: 1387 },
-    night: { src: '/img/noche-bajada.webp', sm: '/img/noche-bajada-sm.webp', w: 2400, h: 1800 },
+    night: { src: '/img/noche-ruta-estrellas.webp', sm: '/img/noche-ruta-estrellas-sm.webp', w: 2400, h: 1610 },
   },
   caption: {
     day: 'Cerro Dragón desde la ruta a Alto Hospicio',
-    night: 'La bajada de Alto Hospicio a Iquique, de noche',
-  },
-  info: {
-    day: { src: '/img/dia-pampa.webp', w: 2048, h: 1536, alt: 'La pampa del Tamarugal vista desde la Ruta 5' },
-    night: { src: '/img/noche-via-lactea.webp', w: 2400, h: 1597, alt: 'La Vía Láctea sobre el desierto de Atacama' },
+    night: 'Carretera del desierto de Atacama bajo las estrellas',
   },
   // Pantalla de carga (estilo landonorris.com): color de marca, logo al centro y texto abajo.
   loader: {
