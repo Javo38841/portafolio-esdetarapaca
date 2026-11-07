@@ -12,9 +12,18 @@ Este repo guarda varios diseños del mismo sitio, cada uno en su propia rama. **
 | `iquique`         | Costanera: Cavancha, el atardecer, Instrument Serif y Manrope                           |
 | `ruta-navidad`    | Navidad en el desierto: `ruta` + rojo pascuero y decoración de Navidad                  |
 | `iquique-navidad` | Navidad en la costanera: `iquique` + rojo pascuero y decoración de Navidad              |
+| `geoglifos`       | Geoglifos: Cerros Pintados, tierra rojiza, Syne                                         |
+| `salitrera`       | Salitrera: Santa Laura y Humberstone, fierro oxidado, Alfa Slab One                     |
+| `la-tirana`       | La Tirana: diablada, rojo y dorado de la fiesta, DM Serif Display                       |
+| `altiplano`       | Altiplano: laguna del Huasco e Isluga, colores de aguayo, Unbounded                     |
+| `pica`            | Oasis de Pica: la plaza, verde y amarillo limón, Fraunces                               |
+| `casco-historico` | Casco histórico: Paseo Baquedano y Plaza Prat, colores pastel, Playfair Display         |
+| `parapente`       | Parapente: Iquique desde el aire, cielo y vela naranja, Manrope en minúsculas           |
 | `main`            | Copia de la rama que está en línea. Cada push a `main` despliega solo (GitHub Actions). |
 
 Las ramas `-navidad` agregan `src/components/Navidad.astro`: nieve que cae, gorro sobre la "S", regalo en "Tu negocio" (en celular se abre tocándolo), sello "Landing lista antes del 24", cuenta regresiva y estrellas de noche. Se activa con una línea `<Navidad />` en `Layout.astro`. Si cambias `Navidad.astro`, pásalo a la otra rama navideña con `git checkout <rama> -- src/components/Navidad.astro`.
+
+Las fotos de noche marcadas como "retocada" en los créditos son la foto de día oscurecida, porque no había una foto de noche con licencia libre.
 
 > La edición Costanera también vive en su propio repo (`esdetarapaca-iquique`, en iquique.esdetarapaca.cl). Si cambias ese diseño, recuerda hacerlo en los dos lados.
 
@@ -37,7 +46,7 @@ Reemplaza todo `main` por la rama elegida. En un par de minutos queda en esdetar
    git cherry-pick <hash-del-commit>
    ```
 4. **Un diseño nuevo es una rama nueva** que sale de una existente (`git checkout -b diseno-nuevo ruta`) y solo cambia los archivos del tema.
-5. **Todas las ramas tienen todas las fuentes.** `package.json` y `package-lock.json` son iguales en todas, con todas las fuentes de todos los diseños (hoy Overpass, Instrument Serif y Manrope). Así `node_modules` sirve para cualquier rama y te puedes cambiar sin `npm install`. Cada diseño importa en `Layout.astro` solo las fuentes que usa, y las demás no llegan al sitio publicado. **Si un diseño nuevo trae una fuente nueva**, instálala y pasa esos dos archivos a todas las ramas:
+5. **Todas las ramas tienen todas las fuentes.** `package.json` y `package-lock.json` son iguales en todas, con todas las fuentes de todos los diseños (hoy Overpass, Instrument Serif, Manrope, Syne, Alfa Slab One, DM Serif Display, Unbounded, Fraunces y Playfair Display). Así `node_modules` sirve para cualquier rama y te puedes cambiar sin `npm install`. Cada diseño importa en `Layout.astro` solo las fuentes que usa, y las demás no llegan al sitio publicado. **Si un diseño nuevo trae una fuente nueva**, instálala y pasa esos dos archivos a todas las ramas:
    ```bash
    npm install @fontsource/<fuente>
    git commit -am "chore: fuente <fuente> en todas las ramas"
