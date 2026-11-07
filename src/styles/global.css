@@ -1,54 +1,63 @@
-/* esdetarapaca · edición Ruta del desierto
-   Estructura tipo segerman.dev: nombre pequeño, título gigante, carrusel infinito e índice.
-   De día: la pampa y el Cerro Dragón con velo de arena. De noche: la bajada iluminada con velo azul noche. */
+/* esdetarapaca · edición Casco histórico (rama casco-historico, sale de ruta)
+   Casas georgianas de madera en colores pastel y faroles. Serif elegante (Playfair Display). */
 
 :root {
-  --bg: #ece1cb;
-  --ink: #1b1a17;
-  --ink-2: #3f392f;
-  --muted: rgb(27 26 23 / 0.5);
-  --line: rgb(27 26 23 / 0.18);
-  --card: #e2d3b6;
-  --accent: #0b6b3a; /* verde letrero de carretera */
-  --mark: #f2b705; /* línea amarilla de la ruta */
-  --veil: linear-gradient(180deg, rgb(236 225 203 / 0.86) 0%, rgb(236 225 203 / 0.6) 45%, rgb(236 225 203 / 0.82) 100%);
+  --bg: #f4ede4;
+  --ink: #2a2738;
+  --ink-2: #4a4658;
+  --muted: rgb(42 39 56 / 0.5);
+  --line: rgb(42 39 56 / 0.18);
+  --card: #e9dfd2;
+  --accent: #2c6b70;
+  --mark: #c9973a;
+  --veil: linear-gradient(180deg, rgb(244 237 228 / 0.86) 0%, rgb(244 237 228 / 0.58) 45%, rgb(244 237 228 / 0.82) 100%);
 
-  --font: 'Overpass', system-ui, sans-serif;
-  --font-display: 'Overpass', system-ui, sans-serif;
-  --display-weight: 800;
-  --display-transform: uppercase;
-  --display-leading: 0.84;
-  --display-tracking: -0.035em;
-  --caption-font: 'Overpass', system-ui, sans-serif;
-  --caption-style: normal;
+  --font: 'Manrope Variable', system-ui, sans-serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --display-weight: 600;
+  --display-transform: none;
+  --display-leading: 0.9;
+  --display-tracking: -0.02em;
+  --caption-font: 'Playfair Display', Georgia, serif;
+  --caption-style: italic;
   --radius: 2px;
   --unit: 24px;
+  --line2-style: italic;
+  --line2-color: var(--accent);
+  --line2-indent: 0.85em;
+  --headline-size: clamp(60px, min(10vw, 16dvh), 168px);
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #070a12;
-    --ink: #efede6;
-    --ink-2: #cfcabd;
-    --muted: rgb(239 237 230 / 0.55);
-    --line: rgb(239 237 230 / 0.2);
-    --card: #141a2a;
-    --accent: #3ccf7f;
-    --mark: #ffcc33;
-    --veil: linear-gradient(180deg, rgb(5 8 16 / 0.72) 0%, rgb(5 8 16 / 0.35) 45%, rgb(5 8 16 / 0.75) 100%);
+    --bg: #13111b;
+    --ink: #f4ede4;
+    --ink-2: #d6cfd9;
+    --muted: rgb(244 237 228 / 0.55);
+    --line: rgb(244 237 228 / 0.2);
+    --card: #211e2c;
+    --accent: #8fd3c9;
+    --mark: #f0c674;
+    --veil: linear-gradient(180deg, rgb(19 17 27 / 0.72) 0%, rgb(19 17 27 / 0.35) 45%, rgb(19 17 27 / 0.75) 100%);
     color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
-  --bg: #070a12;
-  --ink: #efede6;
-  --ink-2: #cfcabd;
-  --muted: rgb(239 237 230 / 0.55);
-  --line: rgb(239 237 230 / 0.2);
-  --card: #141a2a;
-  --accent: #3ccf7f;
-  --mark: #ffcc33;
-  --veil: linear-gradient(180deg, rgb(5 8 16 / 0.72) 0%, rgb(5 8 16 / 0.35) 45%, rgb(5 8 16 / 0.75) 100%);
+  --bg: #13111b;
+  --ink: #f4ede4;
+  --ink-2: #d6cfd9;
+  --muted: rgb(244 237 228 / 0.55);
+  --line: rgb(244 237 228 / 0.2);
+  --card: #211e2c;
+  --accent: #8fd3c9;
+  --mark: #f0c674;
+  --veil: linear-gradient(180deg, rgb(19 17 27 / 0.72) 0%, rgb(19 17 27 / 0.35) 45%, rgb(19 17 27 / 0.75) 100%);
   color-scheme: dark;
+}
+
+/* marco fino como las molduras de madera de las casas georgianas */
+.media {
+  outline: 1px solid var(--line);
+  outline-offset: 5px;
 }
