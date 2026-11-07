@@ -1,54 +1,56 @@
-/* esdetarapaca · edición Ruta del desierto
-   Estructura tipo segerman.dev: nombre pequeño, título gigante, carrusel infinito e índice.
-   De día: la pampa y el Cerro Dragón con velo de arena. De noche: la bajada iluminada con velo azul noche. */
+/* esdetarapaca · edición Oasis de Pica (rama pica, sale de ruta)
+   Verde de los huertos y amarillo limón de Pica. Serif suave y redonda (Fraunces), fresca y cercana. */
 
 :root {
-  --bg: #ece1cb;
-  --ink: #1b1a17;
-  --ink-2: #3f392f;
-  --muted: rgb(27 26 23 / 0.5);
-  --line: rgb(27 26 23 / 0.18);
-  --card: #e2d3b6;
-  --accent: #0b6b3a; /* verde letrero de carretera */
-  --mark: #f2b705; /* línea amarilla de la ruta */
-  --veil: linear-gradient(180deg, rgb(236 225 203 / 0.86) 0%, rgb(236 225 203 / 0.6) 45%, rgb(236 225 203 / 0.82) 100%);
+  --bg: #f7f3dc;
+  --ink: #1f3a1a;
+  --ink-2: #3c5a33;
+  --muted: rgb(31 58 26 / 0.5);
+  --line: rgb(31 58 26 / 0.18);
+  --card: #ece6bf;
+  --accent: #3a8a24;
+  --mark: #e9c400;
+  --veil: linear-gradient(180deg, rgb(247 243 220 / 0.86) 0%, rgb(247 243 220 / 0.58) 45%, rgb(247 243 220 / 0.82) 100%);
 
-  --font: 'Overpass', system-ui, sans-serif;
-  --font-display: 'Overpass', system-ui, sans-serif;
-  --display-weight: 800;
-  --display-transform: uppercase;
-  --display-leading: 0.84;
-  --display-tracking: -0.035em;
-  --caption-font: 'Overpass', system-ui, sans-serif;
-  --caption-style: normal;
-  --radius: 2px;
+  --font: 'Manrope Variable', system-ui, sans-serif;
+  --font-display: 'Fraunces Variable', Georgia, serif;
+  --display-weight: 700;
+  --display-transform: none;
+  --display-leading: 0.88;
+  --display-tracking: -0.025em;
+  --caption-font: 'Fraunces Variable', Georgia, serif;
+  --caption-style: italic;
+  --radius: 14px;
   --unit: 24px;
+  --line2-style: italic;
+  --line2-color: var(--accent);
+  --line2-indent: 0.7em;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #070a12;
-    --ink: #efede6;
-    --ink-2: #cfcabd;
-    --muted: rgb(239 237 230 / 0.55);
-    --line: rgb(239 237 230 / 0.2);
-    --card: #141a2a;
-    --accent: #3ccf7f;
-    --mark: #ffcc33;
-    --veil: linear-gradient(180deg, rgb(5 8 16 / 0.72) 0%, rgb(5 8 16 / 0.35) 45%, rgb(5 8 16 / 0.75) 100%);
+    --bg: #07130a;
+    --ink: #f1f3dc;
+    --ink-2: #cdd9bf;
+    --muted: rgb(241 243 220 / 0.55);
+    --line: rgb(241 243 220 / 0.2);
+    --card: #12261a;
+    --accent: #8fd45a;
+    --mark: #ffe14d;
+    --veil: linear-gradient(180deg, rgb(7 19 10 / 0.72) 0%, rgb(7 19 10 / 0.35) 45%, rgb(7 19 10 / 0.75) 100%);
     color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
-  --bg: #070a12;
-  --ink: #efede6;
-  --ink-2: #cfcabd;
-  --muted: rgb(239 237 230 / 0.55);
-  --line: rgb(239 237 230 / 0.2);
-  --card: #141a2a;
-  --accent: #3ccf7f;
-  --mark: #ffcc33;
-  --veil: linear-gradient(180deg, rgb(5 8 16 / 0.72) 0%, rgb(5 8 16 / 0.35) 45%, rgb(5 8 16 / 0.75) 100%);
+  --bg: #07130a;
+  --ink: #f1f3dc;
+  --ink-2: #cdd9bf;
+  --muted: rgb(241 243 220 / 0.55);
+  --line: rgb(241 243 220 / 0.2);
+  --card: #12261a;
+  --accent: #8fd45a;
+  --mark: #ffe14d;
+  --veil: linear-gradient(180deg, rgb(7 19 10 / 0.72) 0%, rgb(7 19 10 / 0.35) 45%, rgb(7 19 10 / 0.75) 100%);
   color-scheme: dark;
 }
