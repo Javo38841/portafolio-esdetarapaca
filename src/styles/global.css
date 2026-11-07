@@ -1,54 +1,61 @@
-/* esdetarapaca · edición Ruta del desierto
-   Estructura tipo segerman.dev: nombre pequeño, título gigante, carrusel infinito e índice.
-   De día: la pampa y el Cerro Dragón con velo de arena. De noche: la bajada iluminada con velo azul noche. */
+/* esdetarapaca · edición Geoglifos (rama geoglifos, sale de ruta)
+   Tierra rojiza de la pampa y figuras de los geoglifos. Letra geométrica (Syne) como trazada en el cerro. */
 
 :root {
-  --bg: #ece1cb;
-  --ink: #1b1a17;
-  --ink-2: #3f392f;
-  --muted: rgb(27 26 23 / 0.5);
-  --line: rgb(27 26 23 / 0.18);
-  --card: #e2d3b6;
-  --accent: #0b6b3a; /* verde letrero de carretera */
-  --mark: #f2b705; /* línea amarilla de la ruta */
-  --veil: linear-gradient(180deg, rgb(236 225 203 / 0.86) 0%, rgb(236 225 203 / 0.6) 45%, rgb(236 225 203 / 0.82) 100%);
+  --bg: #efe2cf;
+  --ink: #33201a;
+  --ink-2: #5a4034;
+  --muted: rgb(51 32 26 / 0.5);
+  --line: rgb(51 32 26 / 0.18);
+  --card: #e3d0b5;
+  --accent: #a8432a;
+  --mark: #d98c3f;
+  --veil: linear-gradient(180deg, rgb(239 226 207 / 0.86) 0%, rgb(239 226 207 / 0.58) 45%, rgb(239 226 207 / 0.82) 100%);
 
-  --font: 'Overpass', system-ui, sans-serif;
-  --font-display: 'Overpass', system-ui, sans-serif;
+  --font: 'Manrope Variable', system-ui, sans-serif;
+  --font-display: 'Syne', system-ui, sans-serif;
   --display-weight: 800;
   --display-transform: uppercase;
-  --display-leading: 0.84;
-  --display-tracking: -0.035em;
-  --caption-font: 'Overpass', system-ui, sans-serif;
+  --display-leading: 0.86;
+  --display-tracking: -0.03em;
+  --caption-font: 'Manrope Variable', system-ui, sans-serif;
   --caption-style: normal;
-  --radius: 2px;
+  --radius: 0px;
   --unit: 24px;
+  --headline-size: clamp(46px, min(7.4vw, 13dvh), 126px);
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #070a12;
-    --ink: #efede6;
-    --ink-2: #cfcabd;
-    --muted: rgb(239 237 230 / 0.55);
-    --line: rgb(239 237 230 / 0.2);
-    --card: #141a2a;
-    --accent: #3ccf7f;
-    --mark: #ffcc33;
-    --veil: linear-gradient(180deg, rgb(5 8 16 / 0.72) 0%, rgb(5 8 16 / 0.35) 45%, rgb(5 8 16 / 0.75) 100%);
+    --bg: #0f0a09;
+    --ink: #f2e6d6;
+    --ink-2: #d6c6b2;
+    --muted: rgb(242 230 214 / 0.55);
+    --line: rgb(242 230 214 / 0.2);
+    --card: #22160f;
+    --accent: #ff8a5c;
+    --mark: #f2b36b;
+    --veil: linear-gradient(180deg, rgb(15 10 9 / 0.72) 0%, rgb(15 10 9 / 0.35) 45%, rgb(15 10 9 / 0.75) 100%);
     color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
-  --bg: #070a12;
-  --ink: #efede6;
-  --ink-2: #cfcabd;
-  --muted: rgb(239 237 230 / 0.55);
-  --line: rgb(239 237 230 / 0.2);
-  --card: #141a2a;
-  --accent: #3ccf7f;
-  --mark: #ffcc33;
-  --veil: linear-gradient(180deg, rgb(5 8 16 / 0.72) 0%, rgb(5 8 16 / 0.35) 45%, rgb(5 8 16 / 0.75) 100%);
+  --bg: #0f0a09;
+  --ink: #f2e6d6;
+  --ink-2: #d6c6b2;
+  --muted: rgb(242 230 214 / 0.55);
+  --line: rgb(242 230 214 / 0.2);
+  --card: #22160f;
+  --accent: #ff8a5c;
+  --mark: #f2b36b;
+  --veil: linear-gradient(180deg, rgb(15 10 9 / 0.72) 0%, rgb(15 10 9 / 0.35) 45%, rgb(15 10 9 / 0.75) 100%);
   color-scheme: dark;
+}
+
+/* Esta letra es más ancha: título un poco más chico para que "DEVELOPER" no choque con el índice */
+@media (max-width: 899.98px), (max-height: 599.98px) {
+  :root .headline.headline {
+    font-size: clamp(30px, 8.4vw, 60px);
+  }
 }
