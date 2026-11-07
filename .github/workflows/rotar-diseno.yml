@@ -1,0 +1,73 @@
+# Rota el diseño publicado en esdetarapaca.cl una vez al día.
+#  - Del 1 al 25 de diciembre: rota entre las ramas navideñas.
+#  - El resto del año: rota entre los diseños normales.
+# Publica directo la rama elegida; no toca main.
+# Este archivo tiene que estar igual en TODAS las ramas: GitHub solo corre los workflows programados
+# que están en main, y main se sobreescribe con cualquier rama de diseño.
+#
+# Pausar la rotación (p. ej. para dejar fijo un diseño): en GitHub, Settings → Secrets and variables →
+# Actions → Variables, crea ROTAR con el valor "no". Para reanudar, bórrala.
+name: Rotar diseño del día
+
+on:
+  schedule:
+    - cron: '0 7 * * *' # 07:00 UTC = 04:00 en Chile (03:00 en horario de verano)
+  workflow_dispatch: # botón "Run workflow" en la pestaña Actions para rotar a mano
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Comparte la cola con deploy.yml: un solo despliegue a la vez.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Elegir diseño y compilar
+    if: vars.ROTAR != 'no'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Elegir la rama de hoy
+        id: elegir
+        env:
+          TZ: America/Santiago
+        run: |
+          normales=(ruta iquique geoglifos salitrera la-tirana altiplano pica casco-historico parapente)
+          navidad=(ruta-navidad iquique-navidad)
+          mes=$(date +%-m)
+          dia=$(date +%-d)
+          n=$((10#$(date +%j)))   # día del año, 1 a 366
+          if [ "$mes" -eq 12 ] && [ "$dia" -le 25 ]; then
+            ramas=("${navidad[@]}")
+          else
+            ramas=("${normales[@]}")
+          fi
+          rama=${ramas[$((n % ${#ramas[@]}))]}
+          echo "Hoy ($(date +%F)) se publica: $rama"
+          echo "rama=$rama" >> "$GITHUB_OUTPUT"
+          echo "### Diseño de hoy: \`$rama\`" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Checkout de la rama elegida
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ steps.elegir.outputs.rama }}
+
+      - name: Instalar, verificar, compilar y subir artefacto
+        uses: withastro/action@v6
+        with:
+          build-cmd: npm run check && npm run build
+
+  deploy:
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
