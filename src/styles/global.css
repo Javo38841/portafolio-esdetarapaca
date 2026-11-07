@@ -1,6 +1,7 @@
 /* esdetarapaca · edición Ruta del desierto
    Estructura tipo segerman.dev: nombre pequeño, título gigante, carrusel infinito e índice.
-   De día: la pampa y el Cerro Dragón con velo de arena. De noche: la bajada iluminada con velo azul noche. */
+   De día: el Cerro Dragón con velo de arena. De noche: la carretera del desierto bajo las estrellas.
+   Detalles de carretera: hitos de kilómetro en el índice y la línea amarilla que avanza en la pantalla de carga. */
 
 :root {
   --bg: #ece1cb;
@@ -51,4 +52,41 @@
   --mark: #ffcc33;
   --veil: linear-gradient(180deg, rgb(5 8 16 / 0.72) 0%, rgb(5 8 16 / 0.35) 45%, rgb(5 8 16 / 0.75) 100%);
   color-scheme: dark;
+}
+
+/* Hitos de kilómetro en el índice, como letreros verdes de la ruta: WB Hair Studio [KM 01] */
+@media (min-width: 900px) and (min-height: 600px) {
+  .project-index .titles {
+    counter-reset: km;
+  }
+  .project-index .titles li {
+    counter-increment: km;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+  }
+  .project-index .titles li::after {
+    content: 'KM ' counter(km, decimal-leading-zero);
+    flex-shrink: 0;
+    padding: 2px 5px 1px;
+    border: 1px solid rgb(255 255 255 / 0.7);
+    border-radius: 3px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+}
+
+/* Pantalla de carga: la línea amarilla avanza, como si fueras manejando */
+[data-loader] [data-bar] {
+  animation: ruta-avanza 0.6s linear infinite;
+}
+@keyframes ruta-avanza {
+  to {
+    background-position: 44px 0;
+  }
 }
