@@ -1,54 +1,57 @@
-/* esdetarapaca · edición Ruta del desierto
+/* esdetarapaca · edición Costanera
    Estructura tipo segerman.dev: nombre pequeño, título gigante, carrusel infinito e índice.
-   De día: la pampa y el Cerro Dragón con velo de arena. De noche: la bajada iluminada con velo azul noche. */
+   De día: Cavancha con velo de arena clara y coral. De noche: Cavancha bajo la luna, faroles de sodio. */
 
 :root {
-  --bg: #ece1cb;
-  --ink: #1b1a17;
-  --ink-2: #3f392f;
-  --muted: rgb(27 26 23 / 0.5);
-  --line: rgb(27 26 23 / 0.18);
-  --card: #e2d3b6;
-  --accent: #0b6b3a; /* verde letrero de carretera */
-  --mark: #f2b705; /* línea amarilla de la ruta */
-  --veil: linear-gradient(180deg, rgb(236 225 203 / 0.86) 0%, rgb(236 225 203 / 0.6) 45%, rgb(236 225 203 / 0.82) 100%);
+  --bg: #f6efe3;
+  --ink: #10303c;
+  --ink-2: #2f4d58;
+  --muted: rgb(16 48 60 / 0.55);
+  --line: rgb(16 48 60 / 0.2);
+  --card: #e9dcc6;
+  --accent: #e0573a; /* coral de atardecer */
+  --mark: #e0573a;
+  --veil: linear-gradient(180deg, rgb(246 239 227 / 0.88) 0%, rgb(246 239 227 / 0.55) 48%, rgb(246 239 227 / 0.84) 100%);
 
-  --font: 'Overpass', system-ui, sans-serif;
-  --font-display: 'Overpass', system-ui, sans-serif;
-  --display-weight: 800;
-  --display-transform: uppercase;
-  --display-leading: 0.84;
-  --display-tracking: -0.035em;
-  --caption-font: 'Overpass', system-ui, sans-serif;
-  --caption-style: normal;
-  --radius: 2px;
+  --font: 'Manrope Variable', system-ui, sans-serif;
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --display-weight: 400;
+  --display-transform: none;
+  --display-leading: 0.86;
+  --display-tracking: -0.02em;
+  --line2-style: italic;
+  --line2-color: var(--accent);
+  --line2-indent: 0.9em;
+  --caption-font: 'Instrument Serif', Georgia, serif;
+  --caption-style: italic;
+  --radius: 6px;
   --unit: 24px;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #070a12;
-    --ink: #efede6;
-    --ink-2: #cfcabd;
-    --muted: rgb(239 237 230 / 0.55);
-    --line: rgb(239 237 230 / 0.2);
-    --card: #141a2a;
-    --accent: #3ccf7f;
-    --mark: #ffcc33;
-    --veil: linear-gradient(180deg, rgb(5 8 16 / 0.72) 0%, rgb(5 8 16 / 0.35) 45%, rgb(5 8 16 / 0.75) 100%);
+    --bg: #04121a;
+    --ink: #eef4f3;
+    --ink-2: #c6d6d7;
+    --muted: rgb(238 244 243 / 0.55);
+    --line: rgb(238 244 243 / 0.22);
+    --card: #0d2633;
+    --accent: #ffb85c; /* faroles de sodio */
+    --mark: #ffb85c;
+    --veil: linear-gradient(180deg, rgb(3 12 18 / 0.6) 0%, rgb(3 12 18 / 0.2) 48%, rgb(3 12 18 / 0.72) 100%);
     color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
-  --bg: #070a12;
-  --ink: #efede6;
-  --ink-2: #cfcabd;
-  --muted: rgb(239 237 230 / 0.55);
-  --line: rgb(239 237 230 / 0.2);
-  --card: #141a2a;
-  --accent: #3ccf7f;
-  --mark: #ffcc33;
-  --veil: linear-gradient(180deg, rgb(5 8 16 / 0.72) 0%, rgb(5 8 16 / 0.35) 45%, rgb(5 8 16 / 0.75) 100%);
+  --bg: #04121a;
+  --ink: #eef4f3;
+  --ink-2: #c6d6d7;
+  --muted: rgb(238 244 243 / 0.55);
+  --line: rgb(238 244 243 / 0.22);
+  --card: #0d2633;
+  --accent: #ffb85c;
+  --mark: #ffb85c;
+  --veil: linear-gradient(180deg, rgb(3 12 18 / 0.6) 0%, rgb(3 12 18 / 0.2) 48%, rgb(3 12 18 / 0.72) 100%);
   color-scheme: dark;
 }

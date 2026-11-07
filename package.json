@@ -16,7 +16,8 @@
     "esbuild": true
   },
   "dependencies": {
-    "@fontsource/overpass": "^5.3.0",
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
     "astro": "^7.4.1"
   },
   "devDependencies": {
