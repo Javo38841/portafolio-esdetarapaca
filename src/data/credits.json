@@ -1,19 +1,11 @@
 [
   {
-    "file": "dia-cerro-dragon",
-    "title": "Vista del Cerro Dragón desde la carretera que conecta a Iquique con Alto Hospicio..jpg",
-    "author": "Freddy Alexander Bugueño Tolmo",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
-    "source": "https://commons.wikimedia.org/wiki/File:Vista_del_Cerro_Drag%C3%B3n_desde_la_carretera_que_conecta_a_Iquique_con_Alto_Hospicio..jpg"
-  },
-  {
-    "file": "dia-pampa",
-    "title": "Pampa del Tamarugal, vista desde la Ruta 5 - 1.jpg",
-    "author": "Juan Villalobos",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
-    "source": "https://commons.wikimedia.org/wiki/File:Pampa_del_Tamarugal,_vista_desde_la_Ruta_5_-_1.jpg"
+    "file": "dia-parapente",
+    "title": "Paragliding over Iquique.jpg",
+    "author": "Teosaurio",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "source": "https://commons.wikimedia.org/wiki/File%3AParagliding_over_Iquique.jpg"
   },
   {
     "file": "noche-bajada",
@@ -22,13 +14,5 @@
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
     "source": "https://commons.wikimedia.org/wiki/File:Iquique_Vista_Nocturna.jpg"
-  },
-  {
-    "file": "noche-via-lactea",
-    "title": "The Milky Way seen from the Atacama Desert (gerd huedepohl 3).jpg",
-    "author": "G. Hüdepohl (atacamaphoto.com)/ESO",
-    "license": "CC BY 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by/4.0",
-    "source": "https://commons.wikimedia.org/wiki/File:The_Milky_Way_seen_from_the_Atacama_Desert_(gerd_huedepohl_3).jpg"
   }
 ]

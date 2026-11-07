@@ -1,54 +1,70 @@
-/* esdetarapaca · edición Ruta del desierto
-   Estructura tipo segerman.dev: nombre pequeño, título gigante, carrusel infinito e índice.
-   De día: la pampa y el Cerro Dragón con velo de arena. De noche: la bajada iluminada con velo azul noche. */
+/* esdetarapaca · edición Parapente (rama parapente, sale de ruta)
+   Cielo, mar y la vela naranja. Sans en minúsculas (Manrope ExtraBold), liviana como volar. */
 
 :root {
-  --bg: #ece1cb;
-  --ink: #1b1a17;
-  --ink-2: #3f392f;
-  --muted: rgb(27 26 23 / 0.5);
-  --line: rgb(27 26 23 / 0.18);
-  --card: #e2d3b6;
-  --accent: #0b6b3a; /* verde letrero de carretera */
-  --mark: #f2b705; /* línea amarilla de la ruta */
-  --veil: linear-gradient(180deg, rgb(236 225 203 / 0.86) 0%, rgb(236 225 203 / 0.6) 45%, rgb(236 225 203 / 0.82) 100%);
+  --bg: #e8f1f7;
+  --ink: #0c2a40;
+  --ink-2: #2d4a5e;
+  --muted: rgb(12 42 64 / 0.5);
+  --line: rgb(12 42 64 / 0.18);
+  --card: #d6e5ef;
+  --accent: #f0592b;
+  --mark: #f0592b;
+  --veil: linear-gradient(180deg, rgb(232 241 247 / 0.86) 0%, rgb(232 241 247 / 0.58) 45%, rgb(232 241 247 / 0.82) 100%);
 
-  --font: 'Overpass', system-ui, sans-serif;
-  --font-display: 'Overpass', system-ui, sans-serif;
+  --font: 'Manrope Variable', system-ui, sans-serif;
+  --font-display: 'Manrope Variable', system-ui, sans-serif;
   --display-weight: 800;
-  --display-transform: uppercase;
-  --display-leading: 0.84;
-  --display-tracking: -0.035em;
-  --caption-font: 'Overpass', system-ui, sans-serif;
+  --display-transform: lowercase;
+  --display-leading: 0.86;
+  --display-tracking: -0.055em;
+  --caption-font: 'Manrope Variable', system-ui, sans-serif;
   --caption-style: normal;
-  --radius: 2px;
+  --radius: 18px;
   --unit: 24px;
+  --line2-color: var(--accent);
+  --line2-indent: 0.9em;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #070a12;
-    --ink: #efede6;
-    --ink-2: #cfcabd;
-    --muted: rgb(239 237 230 / 0.55);
-    --line: rgb(239 237 230 / 0.2);
-    --card: #141a2a;
-    --accent: #3ccf7f;
-    --mark: #ffcc33;
-    --veil: linear-gradient(180deg, rgb(5 8 16 / 0.72) 0%, rgb(5 8 16 / 0.35) 45%, rgb(5 8 16 / 0.75) 100%);
+    --bg: #050b16;
+    --ink: #e8f1f7;
+    --ink-2: #c2d3e0;
+    --muted: rgb(232 241 247 / 0.55);
+    --line: rgb(232 241 247 / 0.2);
+    --card: #0e1c30;
+    --accent: #ff8a5c;
+    --mark: #ffb35c;
+    --veil: linear-gradient(180deg, rgb(5 11 22 / 0.72) 0%, rgb(5 11 22 / 0.35) 45%, rgb(5 11 22 / 0.75) 100%);
     color-scheme: dark;
   }
 }
 :root[data-theme='dark'] {
-  --bg: #070a12;
-  --ink: #efede6;
-  --ink-2: #cfcabd;
-  --muted: rgb(239 237 230 / 0.55);
-  --line: rgb(239 237 230 / 0.2);
-  --card: #141a2a;
-  --accent: #3ccf7f;
-  --mark: #ffcc33;
-  --veil: linear-gradient(180deg, rgb(5 8 16 / 0.72) 0%, rgb(5 8 16 / 0.35) 45%, rgb(5 8 16 / 0.75) 100%);
+  --bg: #050b16;
+  --ink: #e8f1f7;
+  --ink-2: #c2d3e0;
+  --muted: rgb(232 241 247 / 0.55);
+  --line: rgb(232 241 247 / 0.2);
+  --card: #0e1c30;
+  --accent: #ff8a5c;
+  --mark: #ffb35c;
+  --veil: linear-gradient(180deg, rgb(5 11 22 / 0.72) 0%, rgb(5 11 22 / 0.35) 45%, rgb(5 11 22 / 0.75) 100%);
   color-scheme: dark;
+}
+
+/* las tarjetas flotan un poco, como si fueran volando */
+@media (min-width: 900px) and (min-height: 600px) and (prefers-reduced-motion: no-preference) {
+  .media {
+    animation: vuelo 6s ease-in-out infinite alternate;
+  }
+  .slide:nth-child(even) .media {
+    animation-delay: -3s;
+  }
+  @keyframes vuelo {
+    to {
+      transform: translateY(-10px) rotate(-0.6deg);
+    }
+  }
 }
