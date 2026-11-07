@@ -6,11 +6,15 @@ Estudio web de landings para negocios de Tarapacá. Sitio hecho con Astro y publ
 
 Este repo guarda varios diseños del mismo sitio, cada uno en su propia rama. **`main` es solo lo que está publicado.**
 
-| Rama      | Diseño                                                          |
-| --------- | --------------------------------------------------------------- |
-| `ruta`    | Ruta del desierto: Cerro Dragón, la bajada de Alto Hospicio, Overpass |
-| `iquique` | Costanera: Cavancha, el atardecer, Instrument Serif y Manrope          |
-| `main`    | Copia de la rama que está en línea. Cada push a `main` despliega solo (GitHub Actions). |
+| Rama              | Diseño                                                                                  |
+| ----------------- | --------------------------------------------------------------------------------------- |
+| `ruta`            | Ruta del desierto: Cerro Dragón, la bajada de Alto Hospicio, Overpass                   |
+| `iquique`         | Costanera: Cavancha, el atardecer, Instrument Serif y Manrope                           |
+| `ruta-navidad`    | Navidad en el desierto: `ruta` + rojo pascuero y decoración de Navidad                  |
+| `iquique-navidad` | Navidad en la costanera: `iquique` + rojo pascuero y decoración de Navidad              |
+| `main`            | Copia de la rama que está en línea. Cada push a `main` despliega solo (GitHub Actions). |
+
+Las ramas `-navidad` agregan `src/components/Navidad.astro`: nieve que cae, gorro sobre la "S", regalo en "Tu negocio" (en celular se abre tocándolo), sello "Landing lista antes del 24", cuenta regresiva y estrellas de noche. Se activa con una línea `<Navidad />` en `Layout.astro`. Si cambias `Navidad.astro`, pásalo a la otra rama navideña con `git checkout <rama> -- src/components/Navidad.astro`.
 
 > La edición Costanera también vive en su propio repo (`esdetarapaca-iquique`, en iquique.esdetarapaca.cl). Si cambias ese diseño, recuerda hacerlo en los dos lados.
 
@@ -33,6 +37,12 @@ Reemplaza todo `main` por la rama elegida. En un par de minutos queda en esdetar
    git cherry-pick <hash-del-commit>
    ```
 4. **Un diseño nuevo es una rama nueva** que sale de una existente (`git checkout -b diseno-nuevo ruta`) y solo cambia los archivos del tema.
+5. **Todas las ramas tienen todas las fuentes.** `package.json` y `package-lock.json` son iguales en todas, con todas las fuentes de todos los diseños (hoy Overpass, Instrument Serif y Manrope). Así `node_modules` sirve para cualquier rama y te puedes cambiar sin `npm install`. Cada diseño importa en `Layout.astro` solo las fuentes que usa, y las demás no llegan al sitio publicado. **Si un diseño nuevo trae una fuente nueva**, instálala y pasa esos dos archivos a todas las ramas:
+   ```bash
+   npm install @fontsource/<fuente>
+   git commit -am "chore: fuente <fuente> en todas las ramas"
+   git checkout <otra-rama> && git checkout <rama-con-la-fuente> -- package.json package-lock.json && git commit -m "chore: fuente <fuente> en todas las ramas"
+   ```
 
 ### Qué es diseño y qué es contenido
 
@@ -42,14 +52,15 @@ Para que pasar commits entre ramas no dé conflictos, el diseño y el contenido 
 
 - `src/data/theme.ts`: nombre de la edición, fotos de día y de noche, textos de las fotos, colores y logo de la pantalla de carga
 - `src/styles/global.css`: colores, fuentes y forma
-- `src/layouts/Layout.astro`: solo las líneas `import '@fontsource/...'`
+- `src/layouts/Layout.astro`: solo las líneas `import '@fontsource/...'` (y `<Navidad />` en las ramas navideñas)
 - `src/data/credits.json`: créditos de las fotos
 - `public/img/*.webp` (excepto `trabajos/`) y `public/favicon.svg`
-- `package.json`: las dependencias de fuentes
 
 **Contenido y estructura (igual en todas las ramas):**
 
 - `src/data/studio.ts`: nombre, email, redes, disponibilidad
+- `src/pages/info.astro` y `public/img/javier.webp`: página Info con foto y bio
+- `package.json` y `package-lock.json`: con todas las fuentes (regla 5)
 - `src/data/trabajos.ts` y `public/img/trabajos/`: los trabajos del carrusel
 - `src/pages/`, `src/components/`, `src/scripts/`, `src/styles/base.css`: estructura, carrusel, pantalla de carga, efecto de agua
 
