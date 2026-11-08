@@ -1,4 +1,5 @@
-/* esdetarapaca · edición Salitrera (rama salitrera, sale de ruta)
+/* esdetarapaca · edición Navidad pampina (rama salitrera-navidad, sale de salitrera)
+   Navidad: rojo pascuero y luces doradas sobre el diseño salitrera.
    Fierro oxidado, papel antiguo y letreros pintados. Letra slab industrial de época (Alfa Slab One). */
 
 :root {
@@ -8,7 +9,7 @@
   --muted: rgb(43 33 27 / 0.5);
   --line: rgb(43 33 27 / 0.18);
   --card: #dfcfb1;
-  --accent: #9a3b1b;
+  --accent: #c8102e;
   --mark: #b8901c;
   --veil: linear-gradient(180deg, rgb(235 222 197 / 0.86) 0%, rgb(235 222 197 / 0.58) 45%, rgb(235 222 197 / 0.82) 100%);
 
@@ -35,7 +36,7 @@
     --muted: rgb(239 228 207 / 0.55);
     --line: rgb(239 228 207 / 0.2);
     --card: #1f1813;
-    --accent: #e07a4a;
+    --accent: #ff6b6b;
     --mark: #e3c15a;
     --veil: linear-gradient(180deg, rgb(13 11 10 / 0.72) 0%, rgb(13 11 10 / 0.35) 45%, rgb(13 11 10 / 0.75) 100%);
     color-scheme: dark;
@@ -48,7 +49,7 @@
   --muted: rgb(239 228 207 / 0.55);
   --line: rgb(239 228 207 / 0.2);
   --card: #1f1813;
-  --accent: #e07a4a;
+  --accent: #ff6b6b;
   --mark: #e3c15a;
   --veil: linear-gradient(180deg, rgb(13 11 10 / 0.72) 0%, rgb(13 11 10 / 0.35) 45%, rgb(13 11 10 / 0.75) 100%);
   color-scheme: dark;
