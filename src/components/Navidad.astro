@@ -80,11 +80,15 @@ const year = new Date().getFullYear();
       const s = charRect(line1, 0, 1);
       if (!s) return;
       const h = headline.getBoundingClientRect();
-      const w = s.width * 1.25;
+      // Cada diseño puede ajustar el gorro en su global.css: --hat-size (ancho respecto a la letra)
+      // y --hat-drop (cuánto baja, útil si la letra es minúscula).
+      const css = getComputedStyle(headline);
+      const w = s.width * (parseFloat(css.getPropertyValue('--hat-size')) || 1.25);
+      const drop = (parseFloat(css.getPropertyValue('--hat-drop')) || 0) * s.height;
       hat.style.width = `${w}px`;
       hat.style.left = `${s.left - h.left - w * 0.02}px`;
       // la parte de arriba de la mayúscula está más o menos a 1/4 de la caja del texto
-      hat.style.top = `${s.top - h.top + s.height * 0.24 - w * 0.58}px`;
+      hat.style.top = `${s.top - h.top + s.height * 0.24 - w * 0.58 + drop}px`;
     };
     afterReveal(() => {
       place();
@@ -106,11 +110,21 @@ const year = new Date().getFullYear();
       const size = stamp.offsetWidth;
       const left = d.right - wr.left + 28;
       // ¿cabe al lado de DEVELOPER sin chocar con el índice? Si no, va debajo del texto.
-      const fits = left + size < wr.width - 180;
-      stamp.classList.toggle('is-inline', !fits);
+      const idx = document.querySelector('.project-index');
+      const idxRect = idx && getComputedStyle(idx).display !== 'none' ? idx.getBoundingClientRect() : null;
+      const limit = idxRect && idxRect.width > 0 ? idxRect.left - wr.left - 16 : wr.width - 180;
+      const fits = left + size < limit;
+      const text = wrapper.querySelector('.text');
+      const tr = text?.getBoundingClientRect();
+      const left2 = tr ? tr.right - wr.left + 28 : 0;
+      const fits2 = !fits && !!tr && window.matchMedia('(min-width: 900px) and (min-height: 600px)').matches && left2 + size < limit;
+      stamp.classList.toggle('is-inline', !fits && !fits2);
       if (fits) {
         stamp.style.left = `${left}px`;
         stamp.style.top = `${d.top - wr.top + d.height / 2 - size / 2}px`;
+      } else if (fits2 && tr) {
+        stamp.style.left = `${left2}px`;
+        stamp.style.top = `${tr.top - wr.top + tr.height / 2 - size / 2}px`;
       } else {
         stamp.style.left = '';
         stamp.style.top = '';
@@ -166,6 +180,13 @@ const year = new Date().getFullYear();
   // ---------- Nieve que cae y estrellas (canvas) ----------
   const snow = document.querySelector<HTMLCanvasElement>('[data-snow]');
   const sky = document.querySelector<HTMLCanvasElement>('[data-sky]');
+  // Las estrellas viven dentro del fondo, encima de la foto y del velo (si la página tiene fondo).
+  const bgLayer = document.querySelector('.bg');
+  if (sky && bgLayer) {
+    bgLayer.append(sky);
+    sky.classList.add('in-bg');
+  }
+
   if (snow && sky && !reduce) {
     const sx = snow.getContext('2d')!;
     const kx = sky.getContext('2d')!;
@@ -316,6 +337,19 @@ const year = new Date().getFullYear();
   }
   .xmas-sky {
     z-index: 0; /* encima de la foto, debajo del contenido */
+    display: none; /* solo de noche: de día no hay estrellas y la capa sobra */
+  }
+  .xmas-sky.in-bg {
+    position: absolute;
+    z-index: auto;
+  }
+  :root[data-theme='dark'] .xmas-sky {
+    display: block;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) .xmas-sky {
+      display: block;
+    }
   }
   .xmas-snow {
     z-index: 3;
