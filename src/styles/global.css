@@ -1,4 +1,5 @@
-/* esdetarapaca · edición Altiplano (rama altiplano, sale de ruta)
+/* esdetarapaca · edición Navidad en el altiplano (rama altiplano-navidad, sale de altiplano)
+   Navidad: rojo pascuero y luces doradas sobre el diseño altiplano.
    Colores de aguayo (fucsia, naranjo, café) y cielo del altiplano. Letra ancha y redonda (Unbounded). */
 
 :root {
@@ -8,7 +9,7 @@
   --muted: rgb(45 27 20 / 0.5);
   --line: rgb(45 27 20 / 0.18);
   --card: #e7d8bd;
-  --accent: #c81f63;
+  --accent: #c8102e;
   --mark: #ef8a1f;
   --veil: linear-gradient(180deg, rgb(243 234 216 / 0.86) 0%, rgb(243 234 216 / 0.58) 45%, rgb(243 234 216 / 0.82) 100%);
 
@@ -34,7 +35,7 @@
     --muted: rgb(243 234 216 / 0.55);
     --line: rgb(243 234 216 / 0.2);
     --card: #181633;
-    --accent: #ff5fa2;
+    --accent: #ff6b6b;
     --mark: #ffa94d;
     --veil: linear-gradient(180deg, rgb(10 9 24 / 0.72) 0%, rgb(10 9 24 / 0.35) 45%, rgb(10 9 24 / 0.75) 100%);
     color-scheme: dark;
@@ -47,7 +48,7 @@
   --muted: rgb(243 234 216 / 0.55);
   --line: rgb(243 234 216 / 0.2);
   --card: #181633;
-  --accent: #ff5fa2;
+  --accent: #ff6b6b;
   --mark: #ffa94d;
   --veil: linear-gradient(180deg, rgb(10 9 24 / 0.72) 0%, rgb(10 9 24 / 0.35) 45%, rgb(10 9 24 / 0.75) 100%);
   color-scheme: dark;
