@@ -14,7 +14,7 @@ name: Rotar diseño del día
 
 on:
   schedule:
-    - cron: '0 7 * * *' # 07:00 UTC = 04:00 en Chile (03:00 en horario de verano)
+    - cron: '0 7 * * *' # 07:00 UTC = 04:00 en Chile en horario de verano (03:00 en invierno)
   workflow_dispatch: # botón "Run workflow" en la pestaña Actions: pasa al siguiente
 
 permissions:
@@ -40,7 +40,7 @@ jobs:
           SITIO: https://esdetarapaca.cl
         run: |
           normales=(ruta iquique geoglifos salitrera la-tirana altiplano pica casco-historico parapente)
-          navidad=(ruta-navidad iquique-navidad)
+          navidad=(ruta-navidad iquique-navidad geoglifos-navidad salitrera-navidad la-tirana-navidad altiplano-navidad pica-navidad casco-historico-navidad parapente-navidad)
           if [ "$(date +%-m)" -eq 12 ] && [ "$(date +%-d)" -le 25 ]; then
             ramas=("${navidad[@]}")
           else
