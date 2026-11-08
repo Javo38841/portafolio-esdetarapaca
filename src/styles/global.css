@@ -1,4 +1,5 @@
-/* esdetarapaca · edición Geoglifos (rama geoglifos, sale de ruta)
+/* esdetarapaca · edición Navidad en la pampa (rama geoglifos-navidad, sale de geoglifos)
+   Navidad: rojo pascuero y luces doradas sobre el diseño geoglifos.
    Tierra rojiza de la pampa y figuras de los geoglifos. Letra geométrica (Syne) como trazada en el cerro. */
 
 :root {
@@ -8,7 +9,7 @@
   --muted: rgb(51 32 26 / 0.5);
   --line: rgb(51 32 26 / 0.18);
   --card: #e3d0b5;
-  --accent: #a8432a;
+  --accent: #c8102e;
   --mark: #d98c3f;
   --veil: linear-gradient(180deg, rgb(239 226 207 / 0.86) 0%, rgb(239 226 207 / 0.58) 45%, rgb(239 226 207 / 0.82) 100%);
 
@@ -34,7 +35,7 @@
     --muted: rgb(242 230 214 / 0.55);
     --line: rgb(242 230 214 / 0.2);
     --card: #22160f;
-    --accent: #ff8a5c;
+    --accent: #ff6b6b;
     --mark: #f2b36b;
     --veil: linear-gradient(180deg, rgb(15 10 9 / 0.72) 0%, rgb(15 10 9 / 0.35) 45%, rgb(15 10 9 / 0.75) 100%);
     color-scheme: dark;
@@ -47,7 +48,7 @@
   --muted: rgb(242 230 214 / 0.55);
   --line: rgb(242 230 214 / 0.2);
   --card: #22160f;
-  --accent: #ff8a5c;
+  --accent: #ff6b6b;
   --mark: #f2b36b;
   --veil: linear-gradient(180deg, rgb(15 10 9 / 0.72) 0%, rgb(15 10 9 / 0.35) 45%, rgb(15 10 9 / 0.75) 100%);
   color-scheme: dark;
@@ -58,4 +59,9 @@
   :root .headline.headline {
     font-size: clamp(30px, 8.4vw, 60px);
   }
+}
+
+/* Gorro navideño ajustado a esta letra (ver Navidad.astro) */
+.headline {
+  --hat-size: 0.95;
 }
