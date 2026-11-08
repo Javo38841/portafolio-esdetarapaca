@@ -1,4 +1,5 @@
-/* esdetarapaca · edición Parapente (rama parapente, sale de ruta)
+/* esdetarapaca · edición Navidad en las alturas (rama parapente-navidad, sale de parapente)
+   Navidad: rojo pascuero y luces doradas sobre el diseño parapente.
    Cielo, mar y la vela naranja. Sans en minúsculas (Manrope ExtraBold), liviana como volar. */
 
 :root {
@@ -8,7 +9,7 @@
   --muted: rgb(12 42 64 / 0.5);
   --line: rgb(12 42 64 / 0.18);
   --card: #d6e5ef;
-  --accent: #f0592b;
+  --accent: #c8102e;
   --mark: #f0592b;
   --veil: linear-gradient(180deg, rgb(232 241 247 / 0.86) 0%, rgb(232 241 247 / 0.58) 45%, rgb(232 241 247 / 0.82) 100%);
 
@@ -35,7 +36,7 @@
     --muted: rgb(232 241 247 / 0.55);
     --line: rgb(232 241 247 / 0.2);
     --card: #0e1c30;
-    --accent: #ff8a5c;
+    --accent: #ff6b6b;
     --mark: #ffb35c;
     --veil: linear-gradient(180deg, rgb(5 11 22 / 0.72) 0%, rgb(5 11 22 / 0.35) 45%, rgb(5 11 22 / 0.75) 100%);
     color-scheme: dark;
@@ -48,7 +49,7 @@
   --muted: rgb(232 241 247 / 0.55);
   --line: rgb(232 241 247 / 0.2);
   --card: #0e1c30;
-  --accent: #ff8a5c;
+  --accent: #ff6b6b;
   --mark: #ffb35c;
   --veil: linear-gradient(180deg, rgb(5 11 22 / 0.72) 0%, rgb(5 11 22 / 0.35) 45%, rgb(5 11 22 / 0.75) 100%);
   color-scheme: dark;
@@ -67,4 +68,9 @@
       transform: translateY(-10px) rotate(-0.6deg);
     }
   }
+}
+
+/* Gorro navideño ajustado a esta letra (ver Navidad.astro) */
+.headline {
+  --hat-drop: 0.16;
 }
