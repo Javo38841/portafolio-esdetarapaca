@@ -36,18 +36,18 @@ git push --force-with-lease origin ruta:main      # publica Ruta del desierto
 
 Reemplaza todo `main` por la rama elegida. En un par de minutos queda en esdetarapaca.cl (ver la pestaña Actions).
 
-### Rotación diaria (automática)
+### Rotación de diseños (carrusel)
 
-`.github/workflows/rotar-diseno.yml` publica un diseño distinto cada día a las 04:00 (hora de Chile):
+`.github/workflows/rotar-diseno.yml` publica **el siguiente diseño** cada vez que corre: solo, todos los días a las 04:00 (hora de Chile), y también cuando apretas el botón.
 
 - **Del 1 al 25 de diciembre:** rota entre `ruta-navidad` e `iquique-navidad`.
-- **El resto del año:** rota entre `ruta`, `iquique`, `geoglifos`, `salitrera`, `la-tirana`, `altiplano`, `pica`, `casco-historico` y `parapente`.
+- **El resto del año:** rota en este orden: `ruta` → `iquique` → `geoglifos` → `salitrera` → `la-tirana` → `altiplano` → `pica` → `casco-historico` → `parapente` → vuelve a `ruta`.
 
-Publica directo la rama elegida, sin tocar `main`. Un push a `main` publica esa rama al tiro, pero al día siguiente la rotación vuelve a cambiarla.
+Para saber cuál sigue, lee `esdetarapaca.cl/rotacion.txt`. Ese archivo lo deja el mismo workflow con el nombre de la rama publicada. Si no existe (por ejemplo, después de publicar a mano con un push a `main`), parte por el primero de la lista. No toca `main`.
 
-- **Rotar a mano:** pestaña Actions → "Rotar diseño del día" → Run workflow.
+- **Pasar al siguiente a mano:** pestaña Actions → "Rotar diseño del día" → Run workflow.
 - **Pausar** (para dejar fijo un diseño): en GitHub, Settings → Secrets and variables → Actions → Variables, crea `ROTAR` con el valor `no`, y publica la rama que quieras en `main`. Para reanudar, borra la variable.
-- **Agregar o quitar un diseño de la rotación:** edita las listas `normales` o `navidad` del workflow y pasa el archivo a todas las ramas.
+- **Agregar, quitar o reordenar diseños:** edita las listas `normales` o `navidad` del workflow y pasa el archivo a todas las ramas.
 - **El archivo tiene que estar igual en todas las ramas.** GitHub solo corre los workflows programados que están en `main`, y `main` puede ser cualquier rama.
 - GitHub apaga los workflows programados después de 60 días sin commits en el repo. Si pasa, llega un correo y se reactiva con un clic en Actions.
 
