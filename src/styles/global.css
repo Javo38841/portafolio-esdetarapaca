@@ -1,4 +1,5 @@
-/* esdetarapaca · edición Casco histórico (rama casco-historico, sale de ruta)
+/* esdetarapaca · edición Navidad en el Iquique antiguo (rama casco-historico-navidad, sale de casco-historico)
+   Navidad: rojo pascuero y luces doradas sobre el diseño casco-historico.
    Casas georgianas de madera en colores pastel y faroles. Serif elegante (Playfair Display). */
 
 :root {
@@ -8,7 +9,7 @@
   --muted: rgb(42 39 56 / 0.5);
   --line: rgb(42 39 56 / 0.18);
   --card: #e9dfd2;
-  --accent: #2c6b70;
+  --accent: #c8102e;
   --mark: #c9973a;
   --veil: linear-gradient(180deg, rgb(244 237 228 / 0.86) 0%, rgb(244 237 228 / 0.58) 45%, rgb(244 237 228 / 0.82) 100%);
 
@@ -37,7 +38,7 @@
     --muted: rgb(244 237 228 / 0.55);
     --line: rgb(244 237 228 / 0.2);
     --card: #211e2c;
-    --accent: #8fd3c9;
+    --accent: #ff6b6b;
     --mark: #f0c674;
     --veil: linear-gradient(180deg, rgb(19 17 27 / 0.72) 0%, rgb(19 17 27 / 0.35) 45%, rgb(19 17 27 / 0.75) 100%);
     color-scheme: dark;
@@ -50,7 +51,7 @@
   --muted: rgb(244 237 228 / 0.55);
   --line: rgb(244 237 228 / 0.2);
   --card: #211e2c;
-  --accent: #8fd3c9;
+  --accent: #ff6b6b;
   --mark: #f0c674;
   --veil: linear-gradient(180deg, rgb(19 17 27 / 0.72) 0%, rgb(19 17 27 / 0.35) 45%, rgb(19 17 27 / 0.75) 100%);
   color-scheme: dark;

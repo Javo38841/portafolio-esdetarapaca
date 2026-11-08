@@ -5,6 +5,7 @@ import '@fontsource-variable/manrope';
 import '../styles/global.css';
 import '../styles/base.css';
 import Loader from '../components/Loader.astro';
+import Navidad from '../components/Navidad.astro';
 import { studio } from '../data/studio';
 import { theme } from '../data/theme';
 
@@ -45,6 +46,7 @@ const ogImage = new URL(theme.bg.day.sm, Astro.site);
   </head>
   <body>
     <Loader />
+    <Navidad />
     <a class="skip" href="#contenido">Saltar al contenido</a>
     <slot />
   </body>
