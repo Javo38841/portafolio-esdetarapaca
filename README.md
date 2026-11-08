@@ -28,6 +28,64 @@ Las fotos de noche marcadas como "retocada" en los créditos son la foto de día
 
 > La edición Costanera también vive en su propio repo (`esdetarapaca-iquique`, en iquique.esdetarapaca.cl). Si cambias ese diseño, recuerda hacerlo en los dos lados.
 
+## Guía rápida de comandos
+
+Todo se hace desde `~/Escritorio/paginapropia4`.
+
+**Ver qué ramas hay y en cuál estás**
+```bash
+git branch            # la que tiene * es la actual
+git status            # si hay cambios sin commitear
+```
+
+**Ver un diseño en tu computador**
+```bash
+git checkout pica     # cambiar de rama (cualquiera de la tabla)
+npm run dev           # http://localhost:4321 (si ya estaba corriendo, reinícialo)
+```
+No hace falta `npm install` al cambiar de rama (regla 5). Antes de cambiar de rama, haz commit de lo que tengas o el cambio se va contigo a la otra rama.
+
+**Guardar y subir un cambio en la rama donde estás**
+```bash
+git add -A
+git commit -m "feat: lo que cambiaste"
+git push              # la primera vez en una rama nueva: git push -u origin <rama>
+```
+
+**Publicar un diseño fijo en esdetarapaca.cl**
+1. Pausa la rotación: en GitHub, Settings → Secrets and variables → Actions → Variables, crea `ROTAR` = `no`.
+2. Publica la rama:
+   ```bash
+   git push --force-with-lease origin pica:main
+   ```
+Si no pausas la rotación, se publica igual, pero a las 04:00 del día siguiente la rotación la cambia.
+
+**Pasar al siguiente diseño ahora:** pestaña Actions → "Rotar diseño del día" → Run workflow.
+
+**Pasar un cambio de contenido a todas las ramas** (un trabajo nuevo, un texto de `studio.ts`, la página Info): haz el commit en una rama y luego cópialo a las demás con `cherry-pick`:
+```bash
+git log --oneline -1                     # copia el hash del commit
+origen=$(git branch --show-current)      # la rama donde ya está el commit
+for b in ruta iquique geoglifos salitrera la-tirana altiplano pica casco-historico parapente ruta-navidad iquique-navidad geoglifos-navidad salitrera-navidad la-tirana-navidad altiplano-navidad pica-navidad casco-historico-navidad parapente-navidad; do
+  [ "$b" = "$origen" ] && continue
+  git checkout $b && git cherry-pick <hash> || break
+done
+git push origin ruta iquique geoglifos salitrera la-tirana altiplano pica casco-historico parapente ruta-navidad iquique-navidad geoglifos-navidad salitrera-navidad la-tirana-navidad altiplano-navidad pica-navidad casco-historico-navidad parapente-navidad
+```
+Si alguna rama ya tenía ese commit o da conflicto, el `for` se detiene ahí para que lo revises.
+
+**Pasar un archivo común a todas las ramas** (README, workflow de rotación, `package.json`): se copia el archivo tal cual desde la rama donde lo cambiaste:
+```bash
+for b in ruta iquique geoglifos salitrera la-tirana altiplano pica casco-historico parapente ruta-navidad iquique-navidad geoglifos-navidad salitrera-navidad la-tirana-navidad altiplano-navidad pica-navidad casco-historico-navidad parapente-navidad; do
+  git checkout $b
+  git checkout <rama-donde-lo-cambiaste> -- README.md
+  git commit -m "docs: README al día" || true
+done
+git push origin ruta iquique geoglifos salitrera la-tirana altiplano pica casco-historico parapente ruta-navidad iquique-navidad geoglifos-navidad salitrera-navidad la-tirana-navidad altiplano-navidad pica-navidad casco-historico-navidad parapente-navidad
+```
+
+## Publicación
+
 ### Cambiar el diseño publicado
 
 ```bash
@@ -35,7 +93,7 @@ git push --force-with-lease origin iquique:main   # publica Costanera
 git push --force-with-lease origin ruta:main      # publica Ruta del desierto
 ```
 
-Reemplaza todo `main` por la rama elegida. En un par de minutos queda en esdetarapaca.cl (ver la pestaña Actions).
+Reemplaza todo `main` por la rama elegida. En un par de minutos queda en esdetarapaca.cl (ver la pestaña Actions). Si la rotación está activa, al día siguiente vuelve a cambiar (ver abajo).
 
 ### Rotación de diseños (carrusel)
 
@@ -54,14 +112,10 @@ Para saber cuál sigue, lee `esdetarapaca.cl/rotacion.txt`. Ese archivo lo deja 
 
 ### Reglas
 
-1. **Nunca hacer commits en `main`.** Todo lo que se haga ahí se pierde la próxima vez que se sobreescriba. Trabaja siempre en `ruta` o en `iquique`.
-2. **Sube la rama antes de publicarla** (`git push origin iquique`) para que también quede guardada en GitHub.
-3. **El contenido va en las dos ramas.** Si agregas un trabajo o cambias un texto, haz el commit en una rama y después pásalo a la otra:
-   ```bash
-   git checkout iquique
-   git cherry-pick <hash-del-commit>
-   ```
-4. **Un diseño nuevo es una rama nueva** que sale de una existente (`git checkout -b diseno-nuevo ruta`) y solo cambia los archivos del tema.
+1. **Nunca hacer commits en `main`.** Todo lo que se haga ahí se pierde la próxima vez que se sobreescriba. Trabaja siempre en una rama de diseño.
+2. **Sube la rama antes de publicarla** (`git push origin <rama>`) para que también quede guardada en GitHub. La rotación publica lo que está en GitHub, no lo de tu computador.
+3. **El contenido va en todas las ramas.** Si agregas un trabajo o cambias un texto, haz el commit en una rama y pásalo a las demás (ver "Pasar un cambio de contenido a todas las ramas" en la guía rápida).
+4. **Un diseño nuevo es una rama nueva** que sale de una existente (`git checkout -b diseno-nuevo ruta`) y solo cambia los archivos del tema. Agrégalo a la lista del workflow de rotación si quieres que rote.
 5. **Todas las ramas tienen todas las fuentes.** `package.json` y `package-lock.json` son iguales en todas, con todas las fuentes de todos los diseños (hoy Overpass, Instrument Serif, Manrope, Syne, Alfa Slab One, DM Serif Display, Unbounded, Fraunces y Playfair Display). Así `node_modules` sirve para cualquier rama y te puedes cambiar sin `npm install`. Cada diseño importa en `Layout.astro` solo las fuentes que usa, y las demás no llegan al sitio publicado. **Si un diseño nuevo trae una fuente nueva**, instálala y pasa esos dos archivos a todas las ramas:
    ```bash
    npm install @fontsource/<fuente>
