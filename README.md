@@ -19,9 +19,10 @@ Este repo guarda varios diseños del mismo sitio, cada uno en su propia rama. **
 | `pica`            | Oasis de Pica: la plaza, verde y amarillo limón, Fraunces                               |
 | `casco-historico` | Casco histórico: Paseo Baquedano y Plaza Prat, colores pastel, Playfair Display         |
 | `parapente`       | Parapente: Iquique desde el aire, cielo y vela naranja, Manrope en minúsculas           |
+| `<diseño>-navidad` | Versión navideña de cada diseño: `geoglifos-navidad`, `salitrera-navidad`, `la-tirana-navidad`, `altiplano-navidad`, `pica-navidad`, `casco-historico-navidad`, `parapente-navidad` |
 | `main`            | Copia de la rama que está en línea. Cada push a `main` despliega solo (GitHub Actions). |
 
-Las ramas `-navidad` agregan `src/components/Navidad.astro`: nieve que cae, gorro sobre la "S", regalo en "Tu negocio" (en celular se abre tocándolo), sello "Landing lista antes del 24", cuenta regresiva y estrellas de noche. Se activa con una línea `<Navidad />` en `Layout.astro`. Si cambias `Navidad.astro`, pásalo a la otra rama navideña con `git checkout <rama> -- src/components/Navidad.astro`.
+Las ramas `-navidad` agregan `src/components/Navidad.astro`: nieve que cae, gorro sobre la "S", regalo en "Tu negocio" (en celular se abre tocándolo), sello "Landing lista antes del 24", cuenta regresiva y estrellas de noche. Se activa con una línea `<Navidad />` en `Layout.astro`. `Navidad.astro` es **igual en las 9 ramas navideñas**: si lo cambias, pásalo a todas con `git checkout <rama> -- src/components/Navidad.astro`. Cada diseño puede ajustar el gorro en su `global.css` con `--hat-size` (ancho respecto a la letra) y `--hat-drop` (cuánto baja) dentro de `.headline`. Además de `Navidad.astro`, cada navideña cambia en su tema el rojo pascuero, la pantalla de carga (roja, con barra de bastón de dulce) y el texto de venta.
 
 Las fotos de noche marcadas como "retocada" en los créditos son la foto de día oscurecida, porque no había una foto de noche con licencia libre.
 
@@ -40,7 +41,7 @@ Reemplaza todo `main` por la rama elegida. En un par de minutos queda en esdetar
 
 `.github/workflows/rotar-diseno.yml` publica **el siguiente diseño** cada vez que corre: solo, todos los días a las 04:00 (hora de Chile), y también cuando apretas el botón.
 
-- **Del 1 al 25 de diciembre:** rota entre `ruta-navidad` e `iquique-navidad`.
+- **Del 1 al 25 de diciembre:** rota entre las 9 navideñas: `ruta-navidad` → `iquique-navidad` → `geoglifos-navidad` → `salitrera-navidad` → `la-tirana-navidad` → `altiplano-navidad` → `pica-navidad` → `casco-historico-navidad` → `parapente-navidad`.
 - **El resto del año:** rota en este orden: `ruta` → `iquique` → `geoglifos` → `salitrera` → `la-tirana` → `altiplano` → `pica` → `casco-historico` → `parapente` → vuelve a `ruta`.
 
 Para saber cuál sigue, lee `esdetarapaca.cl/rotacion.txt`. Ese archivo lo deja el mismo workflow con el nombre de la rama publicada. Si no existe (por ejemplo, después de publicar a mano con un push a `main`), parte por el primero de la lista. No toca `main`.
