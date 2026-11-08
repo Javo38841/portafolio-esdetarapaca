@@ -1,7 +1,10 @@
-# Rota el diseño publicado en esdetarapaca.cl una vez al día.
-#  - Del 1 al 25 de diciembre: rota entre las ramas navideñas.
-#  - El resto del año: rota entre los diseños normales.
+# Rota el diseño publicado en esdetarapaca.cl como un carrusel: cada vez que corre, publica el SIGUIENTE.
+#  - Corre solo todos los días a las 04:00 (hora de Chile), y también con el botón "Run workflow".
+#  - Del 1 al 25 de diciembre: rota entre las ramas navideñas. El resto del año: entre los diseños normales.
+# Para saber cuál sigue, lee https://esdetarapaca.cl/rotacion.txt, que este mismo workflow deja publicado
+# con el nombre de la rama actual. Si no existe (p. ej. después de un push a main), parte por el primero.
 # Publica directo la rama elegida; no toca main.
+#
 # Este archivo tiene que estar igual en TODAS las ramas: GitHub solo corre los workflows programados
 # que están en main, y main se sobreescribe con cualquier rama de diseño.
 #
@@ -12,7 +15,7 @@ name: Rotar diseño del día
 on:
   schedule:
     - cron: '0 7 * * *' # 07:00 UTC = 04:00 en Chile (03:00 en horario de verano)
-  workflow_dispatch: # botón "Run workflow" en la pestaña Actions para rotar a mano
+  workflow_dispatch: # botón "Run workflow" en la pestaña Actions: pasa al siguiente
 
 permissions:
   contents: read
@@ -26,34 +29,46 @@ concurrency:
 
 jobs:
   build:
-    name: Elegir diseño y compilar
+    name: Elegir el siguiente diseño y compilar
     if: vars.ROTAR != 'no'
     runs-on: ubuntu-latest
     steps:
-      - name: Elegir la rama de hoy
+      - name: Elegir el siguiente diseño
         id: elegir
         env:
           TZ: America/Santiago
+          SITIO: https://esdetarapaca.cl
         run: |
           normales=(ruta iquique geoglifos salitrera la-tirana altiplano pica casco-historico parapente)
           navidad=(ruta-navidad iquique-navidad)
-          mes=$(date +%-m)
-          dia=$(date +%-d)
-          n=$((10#$(date +%j)))   # día del año, 1 a 366
-          if [ "$mes" -eq 12 ] && [ "$dia" -le 25 ]; then
+          if [ "$(date +%-m)" -eq 12 ] && [ "$(date +%-d)" -le 25 ]; then
             ramas=("${navidad[@]}")
           else
             ramas=("${normales[@]}")
           fi
-          rama=${ramas[$((n % ${#ramas[@]}))]}
-          echo "Hoy ($(date +%F)) se publica: $rama"
-          echo "rama=$rama" >> "$GITHUB_OUTPUT"
-          echo "### Diseño de hoy: \`$rama\`" >> "$GITHUB_STEP_SUMMARY"
+
+          # Cuál está publicado ahora (el ?t= evita la caché)
+          actual=$(curl -fsSL --max-time 15 "$SITIO/rotacion.txt?t=$(date +%s)" 2>/dev/null | tr -d '[:space:]' || true)
+
+          # El que sigue en la lista; si el actual no está en esta lista, parte por el primero
+          siguiente=${ramas[0]}
+          for i in "${!ramas[@]}"; do
+            if [ "${ramas[$i]}" = "$actual" ]; then
+              siguiente=${ramas[$(((i + 1) % ${#ramas[@]}))]}
+            fi
+          done
+
+          echo "Publicado ahora: ${actual:-(no se sabe)} → se publica: $siguiente"
+          echo "rama=$siguiente" >> "$GITHUB_OUTPUT"
+          echo "### ${actual:-?} → \`$siguiente\`" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Checkout de la rama elegida
         uses: actions/checkout@v7
         with:
           ref: ${{ steps.elegir.outputs.rama }}
+
+      - name: Anotar qué rama se publica (para la próxima rotación)
+        run: echo "${{ steps.elegir.outputs.rama }}" > public/rotacion.txt
 
       - name: Instalar, verificar, compilar y subir artefacto
         uses: withastro/action@v6
