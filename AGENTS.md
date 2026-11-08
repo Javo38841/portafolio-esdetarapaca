@@ -20,3 +20,7 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Ramas y diseños
+
+Leer `README.md`: "Decisión: un diseño por rama", la "Guía rápida de comandos" (cambiar de rama, publicar en `main`, pasar cambios a todas las ramas) y "Rotación de diseños". `main` solo se sobreescribe con una rama de diseño, nunca se trabaja en `main`. El usuario hace todos los commits y push: no commitear, no hacer push y no agregar coautoría; entregar los comandos. Toda fuente nueva va en el `package.json` de todas las ramas (regla 5 del README). Los archivos comunes (README, AGENTS.md, CLAUDE.md, workflows, `package.json`, `Navidad.astro` en las navideñas) deben quedar iguales en todas las ramas que los usan.
